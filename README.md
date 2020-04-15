@@ -1,4 +1,4 @@
-# flutter_stanley
+# stanley
 
 Common flutter widgets and helper methods.
 

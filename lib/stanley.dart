@@ -1,4 +1,4 @@
-library flutter_stanley;
+library stanley;
 
 export 'package:stanley/utils.dart';
 export 'package:stanley/ui_helper.dart';

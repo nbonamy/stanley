@@ -40,6 +40,7 @@ class UIHelper {
 
   static Scaffold scaffold({
     @required String title,
+    Color appBarColor,
     @required Widget widget,
     Widget leading,
     List<Widget> actions,
@@ -74,7 +75,7 @@ class UIHelper {
     // done
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: UIHelper.appBar(title: title, leading: leading, actions: actions, lineColor: underlineColor),
+      appBar: UIHelper.appBar(title: title, backgroundColor: appBarColor, leading: leading, actions: actions, lineColor: underlineColor),
       body: result,
       bottomNavigationBar: bottomBar,
     );
