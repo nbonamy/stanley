@@ -103,20 +103,7 @@ class NativeDialog {
   static double materialVerticalButtonPaddingRight = 8;
   static double materialVerticalButtonPaddingVert = 16;
 
-  static void info(BuildContext context, String content) {
-    NativeDialog.alert(
-      context: context,
-      content: content,
-      actions: [
-        AlertDialogAction.build(context, label: tr("ok"))
-      ]
-    );
-  }
-
-  static dynamic inform({
-    @required BuildContext context,
-    @required String message
-  }) {
+  static dynamic info(BuildContext context,String message) {
     NativeDialog.alert(
       context: context,
       content: message,
