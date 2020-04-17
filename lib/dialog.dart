@@ -100,15 +100,15 @@ class NativeDialog {
   static Color alertConfirmColor = Color(0xff0a620c);
 
   static int materialVerticalDialogThreshold = 2;
-  static double materialVerticalButtonPaddingRight = 8;
+  static double materialVerticalButtonPaddingHoriz = 8;
   static double materialVerticalButtonPaddingVert = 16;
 
-  static dynamic info(BuildContext context,String message) {
+  static dynamic info(BuildContext context, String message, { Function onTap }) {
     NativeDialog.alert(
       context: context,
       content: message,
       actions: [
-        AlertDialogAction.build(context, label: tr("ok"))
+        AlertDialogAction.build(context, label: tr("ok"), onTap: onTap)
       ]
     );
   }
@@ -314,8 +314,7 @@ class NativeDialog {
           // build
           buttons.add(Decorator(
             paddingVert: paddingVert ?? materialVerticalButtonPaddingVert,
-            paddingRight: paddingHoriz ?? materialVerticalButtonPaddingRight,
-            paddingLeft: paddingHoriz ?? 0,
+            paddingHoriz: paddingHoriz ?? materialVerticalButtonPaddingHoriz,
             child: action.text,
             onTap: action.onTap
           ));
@@ -358,8 +357,7 @@ class NativeDialog {
         // build
         buttons.add(Decorator(
           paddingVert: paddingVert ?? materialVerticalButtonPaddingVert,
-          paddingRight: paddingHoriz ?? materialVerticalButtonPaddingRight,
-          paddingLeft: paddingHoriz ?? 0,
+          paddingHoriz: paddingHoriz ?? materialVerticalButtonPaddingHoriz,
           child: cancelAction.text,
           onTap: cancelAction.onTap,
         ));
