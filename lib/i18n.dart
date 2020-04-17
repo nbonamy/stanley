@@ -3,6 +3,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class I18nUtils {
+  static String t(String value) {
+    try {
+      return tr(value);
+    } on NoSuchMethodError {
+      return value;
+    }
+  }
+
   static String countryCode(BuildContext context) {
     Locale locale = EasyLocalization.of(context).locale;
     return locale.countryCode;

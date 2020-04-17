@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'decorator.dart';
 import 'dialog.dart';
@@ -52,12 +51,12 @@ class ToggleFormField extends StatelessWidget {
       values: [
         DropdownMenuItem(
             value: false,
-            key: ValueKey(tr("no")),
-            child: UIHelper.text(tr("no"))),
+            key: ValueKey(I18nUtils.t("no")),
+            child: UIHelper.text(I18nUtils.t("no"))),
         DropdownMenuItem(
             value: true,
-            key: ValueKey(tr("yes")),
-            child: UIHelper.text(tr("yes"))),
+            key: ValueKey(I18nUtils.t("yes")),
+            child: UIHelper.text(I18nUtils.t("yes"))),
       ],
       onChange: onChange,
     );

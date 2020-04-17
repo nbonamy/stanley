@@ -1,3 +1,8 @@
+## [0.1.2] - 2020-04-17.
+
+* Example
+* Avoid crash if no easy_localization
+
 ## [0.1.1] - 2020-04-17.
 
 * Flutter format
