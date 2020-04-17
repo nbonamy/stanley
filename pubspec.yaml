@@ -1,6 +1,6 @@
 name: stanley
 description: Common flutter widgets and helper methods.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/nbonamy/stanley
 
 environment:

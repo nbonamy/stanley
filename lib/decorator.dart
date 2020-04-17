@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'ui_helper.dart';
 
 class Decorator extends StatelessWidget {
-
   final Widget child;
   final double width;
   final double height;
@@ -73,13 +72,12 @@ class Decorator extends StatelessWidget {
   }) : super(key: key);
 
   Widget build(BuildContext context) {
-
     // start
     Widget result = child;
 
     // padding
-    EdgeInsets padding = UIHelper.calcEdgeInsets(paddingAll, paddingHoriz, paddingVert,
-        paddingLeft, paddingTop, paddingRight, paddingBottom);
+    EdgeInsets padding = UIHelper.calcEdgeInsets(paddingAll, paddingHoriz,
+        paddingVert, paddingLeft, paddingTop, paddingRight, paddingBottom);
 
     // check if container is needed
     if ((width != null || height != null) ||
@@ -97,7 +95,6 @@ class Decorator extends StatelessWidget {
             borderRight != 0.0 ||
             borderBottom != 0.0) ||
         (backgroundColor != Colors.transparent || borderRadius != 0.0)) {
-
       // adjust border size
       double _borderLeft = (borderLeft != 0.0 ? borderLeft : borderWidth);
       double _borderTop = (borderTop != 0.0 ? borderTop : borderWidth);
@@ -122,16 +119,19 @@ class Decorator extends StatelessWidget {
                   : BorderRadius.all(Radius.circular(borderRadius)),
               border: Border(
                 left: BorderSide(
-                    color: _borderLeft == 0.0 ? Colors.transparent : borderColor,
+                    color:
+                        _borderLeft == 0.0 ? Colors.transparent : borderColor,
                     width: _borderLeft),
                 top: BorderSide(
                     color: _borderTop == 0.0 ? Colors.transparent : borderColor,
                     width: _borderTop),
                 right: BorderSide(
-                    color: _borderRight == 0.0 ? Colors.transparent : borderColor,
+                    color:
+                        _borderRight == 0.0 ? Colors.transparent : borderColor,
                     width: _borderRight),
                 bottom: BorderSide(
-                    color: _borderBottom == 0.0 ? Colors.transparent : borderColor,
+                    color:
+                        _borderBottom == 0.0 ? Colors.transparent : borderColor,
                     width: _borderBottom),
               )),
           child: result);
@@ -148,18 +148,16 @@ class Decorator extends StatelessWidget {
     }
 
     // margin
-    EdgeInsets margin = UIHelper.calcEdgeInsets(marginAll, marginHoriz, marginVert, marginLeft, marginTop, marginRight, marginBottom);
-    if (margin.left != 0.0 || margin.top != 0.0 || margin.right != 0.0 || margin.bottom != 0.0) {
-      result = Container(
-        padding: margin,
-        child: result
-      );
+    EdgeInsets margin = UIHelper.calcEdgeInsets(marginAll, marginHoriz,
+        marginVert, marginLeft, marginTop, marginRight, marginBottom);
+    if (margin.left != 0.0 ||
+        margin.top != 0.0 ||
+        margin.right != 0.0 ||
+        margin.bottom != 0.0) {
+      result = Container(padding: margin, child: result);
     }
 
     // done
     return result;
   }
-
-
 }
-

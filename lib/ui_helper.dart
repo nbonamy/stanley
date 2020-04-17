@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'decorator.dart';
 
 class UIHelper {
-
-  static Text text(String text, {
-    String family,
-    FontWeight weight,
-    bool bold = false,
-    double size,
-    Color color,
-    int maxLines,
-    TextOverflow overflow,
-    TextAlign align
-  }) {
-
+  static Text text(String text,
+      {String family,
+      FontWeight weight,
+      bool bold = false,
+      double size,
+      Color color,
+      int maxLines,
+      TextOverflow overflow,
+      TextAlign align}) {
     // check
     if (text == null) {
       return null;
@@ -26,16 +23,14 @@ class UIHelper {
 
     // done
     return Text(text,
-      textAlign: align,
-      maxLines: maxLines,
-      overflow: overflow,
-      style: TextStyle(
-        fontFamily: family,
-        fontSize: size,
-        fontWeight: weight,
-        color: color
-      )
-    );
+        textAlign: align,
+        maxLines: maxLines,
+        overflow: overflow,
+        style: TextStyle(
+            fontFamily: family,
+            fontSize: size,
+            fontWeight: weight,
+            color: color));
   }
 
   static Scaffold scaffold({
@@ -57,66 +52,62 @@ class UIHelper {
     ScrollPhysics scrollPhysics,
     Widget bottomBar,
   }) {
-
     // add padding
     Widget result = Padding(
-      padding: UIHelper.calcEdgeInsets(paddingAll, paddingHoriz, paddingVert, paddingLeft, paddingTop, paddingRight, paddingBottom),
-      child: widget
-    );
+        padding: UIHelper.calcEdgeInsets(paddingAll, paddingHoriz, paddingVert,
+            paddingLeft, paddingTop, paddingRight, paddingBottom),
+        child: widget);
 
     // scroll
     if (scroll) {
-      result = SingleChildScrollView(
-        physics: scrollPhysics,
-        child: result
-      );
+      result = SingleChildScrollView(physics: scrollPhysics, child: result);
     }
 
     // done
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: UIHelper.appBar(title: title, backgroundColor: appBarColor, leading: leading, actions: actions, lineColor: underlineColor),
+      appBar: UIHelper.appBar(
+          title: title,
+          backgroundColor: appBarColor,
+          leading: leading,
+          actions: actions,
+          lineColor: underlineColor),
       body: result,
       bottomNavigationBar: bottomBar,
     );
-
   }
 
-  static Widget appBar({
-    @required String title,
-    Color backgroundColor,
-    Widget leading,
-    List<Widget> actions,
-    Color lineColor
-  }) {
-
+  static Widget appBar(
+      {@required String title,
+      Color backgroundColor,
+      Widget leading,
+      List<Widget> actions,
+      Color lineColor}) {
     return AppBar(
       title: UIHelper.text(title),
       centerTitle: true,
       leading: leading,
       actions: actions,
       backgroundColor: backgroundColor,
-      elevation: (lineColor == null ? null : (lineColor == Colors.transparent ? 0 : 0.6)),
-      shape: lineColor == null ? null : Border(
-        bottom: BorderSide(color: lineColor)
-      ),
+      elevation: (lineColor == null
+          ? null
+          : (lineColor == Colors.transparent ? 0 : 0.6)),
+      shape: lineColor == null
+          ? null
+          : Border(bottom: BorderSide(color: lineColor)),
     );
-
   }
 
   static Widget appBarAction({String label, Function onTap}) {
-    return Center(child: Decorator(
-      child: UIHelper.text(label, size: 20),
-      paddingHoriz: 16,
-      onTap: onTap
-    ));
+    return Center(
+        child: Decorator(
+            child: UIHelper.text(label, size: 20),
+            paddingHoriz: 16,
+            onTap: onTap));
   }
 
   static Widget appBarIcon({IconData icon, Function onTap}) {
-    return IconButton(
-      icon: Icon(icon),
-      onPressed: onTap
-    );
+    return IconButton(icon: Icon(icon), onPressed: onTap);
   }
 
   static EdgeInsets calcEdgeInsets(
@@ -157,5 +148,4 @@ class UIHelper {
     // done
     return EdgeInsets.fromLTRB(left, top, right, bottom);
   }
-
 }
