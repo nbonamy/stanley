@@ -50,16 +50,16 @@ class _MyHomePageState extends State<MyHomePage> {
           onTap: () {
             NativeDialog.alert(
               context: context,
-              content: "Are you staying at home?",
+              content: 'Are you staying at home?',
               actions: [
-                AlertDialogAction.cancel(context, label: "No"),
+                AlertDialogAction.cancel(context, label: 'No'),
                 AlertDialogAction.build(
                   context,
-                  label: "Yes",
+                  label: 'Yes',
                   onTap: () {
                     NativeDialog.info(
                       context,
-                      "Thanks!",
+                      'Thanks!',
                     );
                   },
                 ),

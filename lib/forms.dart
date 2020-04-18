@@ -51,12 +51,12 @@ class ToggleFormField extends StatelessWidget {
       values: [
         DropdownMenuItem(
             value: false,
-            key: ValueKey(I18nUtils.t("no")),
-            child: UIHelper.text(I18nUtils.t("no"))),
+            key: ValueKey(I18nUtils.t('no')),
+            child: UIHelper.text(I18nUtils.t('no'))),
         DropdownMenuItem(
             value: true,
-            key: ValueKey(I18nUtils.t("yes")),
-            child: UIHelper.text(I18nUtils.t("yes"))),
+            key: ValueKey(I18nUtils.t('yes')),
+            child: UIHelper.text(I18nUtils.t('yes'))),
       ],
       onChange: onChange,
     );

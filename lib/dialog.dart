@@ -24,7 +24,7 @@ class AlertDialogAction {
   }) {
     // default value
     if (label == null) {
-      label = I18nUtils.t("cancel");
+      label = I18nUtils.t('cancel');
     }
 
     // fallback
@@ -102,7 +102,7 @@ class NativeDialog {
 
   static dynamic info(BuildContext context, String message, {Function onTap}) {
     NativeDialog.alert(context: context, content: message, actions: [
-      AlertDialogAction.build(context, label: I18nUtils.t("ok"), onTap: onTap)
+      AlertDialogAction.build(context, label: I18nUtils.t('ok'), onTap: onTap)
     ]);
   }
 
