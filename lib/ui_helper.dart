@@ -22,15 +22,18 @@ class UIHelper {
     }
 
     // done
-    return Text(text,
-        textAlign: align,
-        maxLines: maxLines,
-        overflow: overflow,
-        style: TextStyle(
-            fontFamily: family,
-            fontSize: size,
-            fontWeight: weight,
-            color: color));
+    return Text(
+      text,
+      textAlign: align,
+      maxLines: maxLines,
+      overflow: overflow,
+      style: TextStyle(
+        fontFamily: family,
+        fontSize: size,
+        fontWeight: weight,
+        color: color,
+      ),
+    );
   }
 
   static Scaffold scaffold({
@@ -54,24 +57,36 @@ class UIHelper {
   }) {
     // add padding
     Widget result = Padding(
-        padding: UIHelper.calcEdgeInsets(paddingAll, paddingHoriz, paddingVert,
-            paddingLeft, paddingTop, paddingRight, paddingBottom),
-        child: widget);
+      padding: UIHelper.calcEdgeInsets(
+        paddingAll,
+        paddingHoriz,
+        paddingVert,
+        paddingLeft,
+        paddingTop,
+        paddingRight,
+        paddingBottom,
+      ),
+      child: widget,
+    );
 
     // scroll
     if (scroll) {
-      result = SingleChildScrollView(physics: scrollPhysics, child: result);
+      result = SingleChildScrollView(
+        physics: scrollPhysics,
+        child: result,
+      );
     }
 
     // done
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: UIHelper.appBar(
-          title: title,
-          backgroundColor: appBarColor,
-          leading: leading,
-          actions: actions,
-          lineColor: underlineColor),
+        title: title,
+        backgroundColor: appBarColor,
+        leading: leading,
+        actions: actions,
+        lineColor: underlineColor,
+      ),
       body: result,
       bottomNavigationBar: bottomBar,
     );
@@ -94,20 +109,32 @@ class UIHelper {
           : (lineColor == Colors.transparent ? 0 : 0.6)),
       shape: lineColor == null
           ? null
-          : Border(bottom: BorderSide(color: lineColor)),
+          : Border(
+              bottom: BorderSide(color: lineColor),
+            ),
     );
   }
 
   static Widget appBarAction({String label, Function onTap}) {
     return Center(
         child: Decorator(
-            child: UIHelper.text(label, size: 20),
-            paddingHoriz: 16,
-            onTap: onTap));
+      child: UIHelper.text(
+        label,
+        size: 20,
+      ),
+      paddingHoriz: 16,
+      onTap: onTap,
+    ));
   }
 
-  static Widget appBarIcon({IconData icon, Function onTap}) {
-    return IconButton(icon: Icon(icon), onPressed: onTap);
+  static Widget appBarIcon({
+    IconData icon,
+    Function onTap,
+  }) {
+    return IconButton(
+      icon: Icon(icon),
+      onPressed: onTap,
+    );
   }
 
   static EdgeInsets calcEdgeInsets(
@@ -146,6 +173,11 @@ class UIHelper {
     }
 
     // done
-    return EdgeInsets.fromLTRB(left, top, right, bottom);
+    return EdgeInsets.fromLTRB(
+      left,
+      top,
+      right,
+      bottom,
+    );
   }
 }
