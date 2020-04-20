@@ -1,3 +1,8 @@
+## [0.2.0] - 2020-04-20.
+
+* Refactor of native dialogs
+* Updated example
+
 ## [0.1.2] - 2020-04-17.
 
 * Example

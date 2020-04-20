@@ -1,6 +1,6 @@
 name: stanley
 description: Common flutter widgets and helper methods to accelerate Flutter app development.
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/nbonamy/stanley
 
 environment:

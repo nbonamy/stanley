@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
 import 'package:stanley/stanley.dart';
 
 void main() => runApp(MyApp());
@@ -30,44 +31,142 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return UIHelper.scaffold(
       title: 'Stanley Demo',
-      backgroundColor: Colors.blue,
-      underlineColor: Colors.transparent,
-      widget: Center(
-        child: Decorator(
-          marginBottom: 200,
-          paddingVert: 24,
-          paddingHoriz: 48,
-          borderWidth: 2,
-          borderColor: Colors.white,
-          borderRadius: 8,
-          child: UIHelper.text(
-            'My name is\nStanley',
-            size: 24,
-            color: Colors.white,
-            bold: true,
-            align: TextAlign.center,
+      paddingAll: 64,
+      paddingVert: 256,
+      widget: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Button(
+            label: 'Inform',
+            onTap: () {
+              NativeDialog.info(
+                context,
+                'This is Stanley',
+              );
+            },
           ),
-          onTap: () {
-            NativeDialog.alert(
-              context: context,
-              content: 'Are you staying at home?',
-              actions: [
-                AlertDialogAction.cancel(context, label: 'No'),
-                AlertDialogAction.build(
-                  context,
-                  label: 'Yes',
-                  onTap: () {
-                    NativeDialog.info(
-                      context,
-                      'Thanks!',
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        ),
+          Button(
+            label: 'Confirm',
+            onTap: () {
+              NativeDialog.alert(
+                context: context,
+                content: 'Are you sure?',
+                actions: [
+                  AlertDialogAction.cancel(
+                    label: tr('no'),
+                    isDefault: true,
+                  ),
+                  AlertDialogAction(
+                    label: tr('yes'),
+                    onTap: () {
+                      NativeDialog.info(context, 'So be it!');
+                    },
+                  )
+                ],
+              );
+            },
+          ),
+          Button(
+            label: 'Multiple choices',
+            onTap: () {
+              NativeDialog.alert(
+                context: context,
+                content: 'Please select one',
+                actions: [
+                  AlertDialogAction(
+                    label: 'Green',
+                    color: Colors.green,
+                  ),
+                  AlertDialogAction(
+                    label: 'Orange',
+                    color: Colors.orange,
+                    isDefault: true,
+                  ),
+                  AlertDialogAction(
+                    label: 'Blue',
+                    color: Colors.blue,
+                  ),
+                ],
+              );
+            },
+          ),
+          Button(
+            label: 'Native Bottom Sheet',
+            onTap: () {
+              NativeDialog.bottomSheet(
+                context: context,
+                title: 'Please select one',
+                actions: [
+                  AlertDialogAction(
+                    label: 'Green',
+                    color: Colors.green,
+                  ),
+                  AlertDialogAction(
+                    label: 'Orange',
+                    color: Colors.orange,
+                    isDefault: true,
+                  ),
+                  AlertDialogAction(
+                    label: 'Blue',
+                    color: Colors.blue,
+                  ),
+                ],
+                cancelAction: AlertDialogAction.cancel(isDefault: true),
+              );
+            },
+          ),
+          Button(
+            label: 'Material Bottom Sheet',
+            onTap: () {
+              NativeDialog.bottomSheet(
+                context: context,
+                forceMaterial: true,
+                title: 'Please select one',
+                actions: [
+                  AlertDialogAction(
+                    label: 'Green',
+                    color: Colors.green,
+                  ),
+                  AlertDialogAction(
+                    label: 'Orange',
+                    color: Colors.orange,
+                    isDefault: true,
+                  ),
+                  AlertDialogAction(
+                    label: 'Blue',
+                    color: Colors.blue,
+                  ),
+                ],
+                cancelAction: AlertDialogAction.cancel(isDefault: true),
+              );
+            },
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  final String label;
+  final Function onTap;
+  const Button({
+    Key key,
+    this.label,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Decorator(
+      centered: true,
+      paddingVert: 8,
+      paddingHoriz: 16,
+      borderColor: Colors.black,
+      borderWidth: 1,
+      borderRadius: 4,
+      child: UIHelper.text(label, size: 18),
+      onTap: onTap,
     );
   }
 }

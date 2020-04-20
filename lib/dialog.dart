@@ -1,22 +1,30 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stanley/stanley.dart';
 import 'decorator.dart';
 import 'i18n.dart';
 import 'ui_helper.dart';
 
 class AlertDialogAction {
-  dynamic text;
-  bool isDefault;
-  Function onTap;
+  final String label;
+  final Color color;
+  final bool noUpperCase;
+  final bool isDefault;
+  final bool autoDismiss;
+  final Function onTap;
+
   AlertDialogAction({
-    @required this.text,
-    @required this.onTap,
+    @required this.label,
+    this.color,
+    this.noUpperCase = false,
     this.isDefault = false,
+    this.autoDismiss = true,
+    this.onTap,
   });
 
-  static AlertDialogAction cancel(
-    BuildContext context, {
+  static AlertDialogAction cancel({
     String label,
     bool isDefault = false,
     bool autoDismiss = true,
@@ -28,8 +36,7 @@ class AlertDialogAction {
     }
 
     // fallback
-    return AlertDialogAction.build(
-      context,
+    return AlertDialogAction(
       label: label,
       color: NativeDialog.alertCancelColor,
       isDefault: isDefault,
@@ -38,51 +45,15 @@ class AlertDialogAction {
     );
   }
 
-  static AlertDialogAction build(
-    BuildContext context, {
-    dynamic label,
-    Color color,
-    bool noUpperCase = false,
-    bool isDefault = false,
-    bool autoDismiss = true,
-    Function onTap,
-  }) {
-    // build the label
-    if (label is String) {
-      // android is upper case
-      if (NativeDialog.isAndroid) {
-        label = label.toString();
+  Function getOnTap(BuildContext context) {
+    return () {
+      if (this.autoDismiss) {
+        Navigator.of(context).pop();
       }
-
-      // now make it a widget
-      if (color != null) {
-        label = AlertDialogAction.label(label, color: color);
+      if (this.onTap != null) {
+        this.onTap();
       }
-    }
-
-    return AlertDialogAction(
-      text: (label is String && NativeDialog.isAndroid && noUpperCase == false)
-          ? label.toUpperCase()
-          : label,
-      isDefault: isDefault,
-      onTap: () {
-        if (autoDismiss) {
-          Navigator.pop(context);
-        }
-        if (onTap != null) {
-          onTap();
-        }
-      },
-    );
-  }
-
-  static Widget label(String label, {double size, Color color}) {
-    return UIHelper.text(
-      NativeDialog.isAndroid ? label.toUpperCase() : label,
-      size: size != null ? size : NativeDialog.alertFontSize,
-      color: color,
-      bold: NativeDialog.isAndroid ? true : null,
-    );
+    };
   }
 }
 
@@ -95,15 +66,30 @@ class NativeDialog {
   static Color alertCancelColor =
       NativeDialog.isIOS ? Color(0xfff1453d) : Color(0xffad2323);
   static Color alertConfirmColor = Color(0xff0a620c);
+  static Color alertNeutralColor = Colors.blue;
 
   static int materialVerticalDialogThreshold = 2;
-  static double materialVerticalButtonPaddingHoriz = 8;
-  static double materialVerticalButtonPaddingVert = 16;
+  static double materialDialogVerticalButtonPaddingHoriz = 8;
+  static double materialDialogVerticalButtonPaddingVert = 16;
+
+  static double materialSheetButtonPaddingHoriz = 4;
+  static double materialSheetButtonPaddingVert = 8;
+  static double materialSheetButtonBottomMargin = 0;
+  static double materialSheetFontSize = alertFontSize;
+  static bool materialSheetBold = false;
+  static bool materialSheetUpperCase = false;
 
   static dynamic info(BuildContext context, String message, {Function onTap}) {
-    NativeDialog.alert(context: context, content: message, actions: [
-      AlertDialogAction.build(context, label: I18nUtils.t('ok'), onTap: onTap)
-    ]);
+    NativeDialog.alert(
+      context: context,
+      content: message,
+      actions: [
+        AlertDialogAction(
+          label: I18nUtils.t('ok'),
+          onTap: onTap,
+        ),
+      ],
+    );
   }
 
   static dynamic alert({
@@ -120,7 +106,12 @@ class NativeDialog {
     }
 
     // check
-    List<Widget> buttons = _buildButtons(actions, cancelAction);
+    List<Widget> buttons = _buildButtons(
+      context,
+      actions,
+      cancelAction,
+      bold: isAndroid,
+    );
     int buttonCount = buttons.length;
     if (buttonCount == 0) {
       return;
@@ -128,10 +119,12 @@ class NativeDialog {
 
     // build title and content
     if (title is String) {
-      title = UIHelper.text(title,
-          family: null,
-          size: NativeDialog.alertFontSize,
-          weight: FontWeight.bold);
+      title = UIHelper.text(
+        title,
+        family: null,
+        size: NativeDialog.alertFontSize,
+        weight: FontWeight.bold,
+      );
     }
     if (content is String) {
       content = UIHelper.text(
@@ -192,18 +185,54 @@ class NativeDialog {
         context: context,
         builder: (context) => CupertinoActionSheet(
           title: UIHelper.text(title, size: alertFontSize),
-          actions: _buildButtons(actions, null),
+          actions: _buildButtons(context, actions, null),
           cancelButton: cancelAction == null
               ? null
-              : _buildButtons(null, cancelAction).first,
+              : _buildButtons(context, null, cancelAction).first,
         ),
       );
     } else {
-
       // height
       if (height == null) {
-        height = MediaQuery.of(context).size.height * 0.66;
+        int itemCount = (title == null ? 0 : 1) +
+            (actions == null ? 0 : actions.length) +
+            (cancelAction == null ? 0 : 1);
+        double itemHeight = NativeDialog.alertFontSize * 1.5 +
+            materialSheetButtonPaddingVert * 2;
+        double maxHeight = MediaQuery.of(context).size.height * 0.66;
+        height = min(maxHeight,
+            itemCount * itemHeight + materialSheetButtonBottomMargin);
       }
+
+      // build title
+      Widget titleWidget = Align(
+        alignment: Alignment.topRight,
+        child: Decorator(
+          paddingBottom: 8,
+          child: UIHelper.text(
+            title?.toUpperCase(),
+            size: 16,
+            color: titleColor,
+            bold: true,
+            align: TextAlign.end,
+          ),
+        ),
+      );
+
+      // build buttons
+      List<Widget> buttons = _buildButtons(
+        context,
+        actions,
+        cancelAction,
+        forceMaterial: forceMaterial,
+        paddingVert: materialSheetButtonPaddingVert,
+        paddingHoriz: materialSheetButtonPaddingHoriz,
+        size: materialSheetFontSize,
+        bold: materialSheetBold,
+        uppercase: materialSheetUpperCase,
+        color: Colors.black,
+        align: TextAlign.end,
+      );
 
       // show it
       showModalBottomSheet(
@@ -218,37 +247,11 @@ class NativeDialog {
             paddingAll: 16,
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Decorator(
-                    paddingBottom: 8,
-                    child: UIHelper.text(
-                      title.toUpperCase(),
-                      size: 16,
-                      color: titleColor,
-                      bold: true,
-                      align: TextAlign.end,
-                    ),
-                  ),
-                ),
+                titleWidget,
                 Expanded(
                   child: ListView(
                     shrinkWrap: true,
-                    children: _buildButtons(
-                      actions, null,
-                      //leading: Decorator(
-                      //  paddingRight: 6,
-                      //  child: Icon(Icons.brightness_1, size: 8, color: Color(0xff707070))
-                      //),
-                      forceMaterial: forceMaterial,
-                      paddingVert: 8,
-                      paddingHoriz: 4,
-                      size: 16,
-                      bold: false,
-                      uppercase: false,
-                      color: Colors.black,
-                      align: TextAlign.end,
-                    ),
+                    children: buttons,
                   ),
                 )
               ],
@@ -260,6 +263,7 @@ class NativeDialog {
   }
 
   static List<Widget> _buildButtons(
+    BuildContext context,
     List<AlertDialogAction> actions,
     AlertDialogAction cancelAction, {
     bool forceMaterial = false,
@@ -272,115 +276,101 @@ class NativeDialog {
     TextAlign align,
     Widget leading,
   }) {
-    // buttons
-    List<Widget> buttons = new List();
-    int buttonCount =
-        (actions == null ? 0 : actions.length) + (cancelAction == null ? 0 : 1);
-
-    // each button
+    // render in one pass
+    List<AlertDialogAction> actionsToRender = List();
     if (actions != null) {
-      for (AlertDialogAction action in actions) {
-        // we may allow null
-        if (action == null) {
-          continue;
-        }
-
-        // depends on platform
-        if (forceMaterial == false && NativeDialog.isIOS) {
-          // widget
-          if (action.text is String) {
-            action.text = UIHelper.text(
-              action.text,
-              family: null,
-              size: NativeDialog.alertFontSize,
-            );
-          }
-
-          // build
-          buttons.add(CupertinoActionSheetAction(
-            child: action.text,
-            isDefaultAction: action.isDefault,
-            onPressed: action.onTap,
-          ));
-        } else {
-          // widget
-          if (action.text is String) {
-            action.text = UIHelper.text(
-              (uppercase == false) ? action.text : action.text.toUpperCase(),
-              family: null,
-              size: size ?? NativeDialog.alertFontSize,
-              color: color ?? NativeDialog.alertConfirmColor,
-              align: align ??
-                  (buttonCount > materialVerticalDialogThreshold
-                      ? TextAlign.right
-                      : null),
-              bold: bold ?? true, //action.isDefault
-            );
-          }
-
-          // leading
-          if (leading != null) {
-            action.text = Row(
-              children: [leading, action.text],
-            );
-          }
-
-          // build
-          buttons.add(Decorator(
-            paddingVert: paddingVert ?? materialVerticalButtonPaddingVert,
-            paddingHoriz: paddingHoriz ?? materialVerticalButtonPaddingHoriz,
-            child: action.text,
-            onTap: action.onTap,
-          ));
-        }
-      }
+      actionsToRender.addAll(actions);
     }
+    actionsToRender.add(cancelAction);
 
-    // cancel
-    if (cancelAction != null) {
+    // now render them all
+    List<Widget> buttons = new List();
+    for (AlertDialogAction action in actionsToRender) {
+      // we may allow null
+      if (action == null) {
+        continue;
+      }
+
+      // depends on platform
       if (forceMaterial == false && NativeDialog.isIOS) {
-        // widget
-        if (cancelAction.text is String) {
-          cancelAction.text = UIHelper.text(
-            cancelAction.text,
-            family: null,
-            size: NativeDialog.alertFontSize,
-            color: NativeDialog.alertCancelColor,
-          );
-        }
-
-        // build
-        buttons.add(CupertinoActionSheetAction(
-          child: cancelAction.text,
-          isDefaultAction: cancelAction.isDefault,
-          onPressed: cancelAction.onTap,
-        ));
+        buttons.add(_iosButton(context: context, action: action, size: size));
       } else {
-        // widget
-        if (cancelAction.text is String) {
-          cancelAction.text = UIHelper.text(
-            cancelAction.text.toUpperCase(),
-            family: null,
-            size: size ?? NativeDialog.alertFontSize,
-            color: color ?? NativeDialog.alertCancelColor,
-            align: align ?? buttonCount > materialVerticalDialogThreshold
-                ? TextAlign.right
-                : null,
-            bold: bold ?? true, //cancelAction.isDefault
-          );
-        }
-
         // build
-        buttons.add(Decorator(
-          paddingVert: paddingVert ?? materialVerticalButtonPaddingVert,
-          paddingHoriz: paddingHoriz ?? materialVerticalButtonPaddingHoriz,
-          child: cancelAction.text,
-          onTap: cancelAction.onTap,
+        buttons.add(_androidButton(
+          context: context,
+          action: action,
+          paddingHoriz: paddingHoriz,
+          paddingVert: paddingVert,
+          uppercase: uppercase,
+          size: size,
+          bold: bold,
+          color: color,
+          align: align,
+          leading: leading,
         ));
       }
     }
 
     // done
     return buttons;
+  }
+
+  static Widget _androidButton({
+    BuildContext context,
+    AlertDialogAction action,
+    double paddingVert,
+    double paddingHoriz,
+    bool uppercase,
+    double size,
+    bool bold,
+    Color color,
+    TextAlign align,
+    Widget leading,
+  }) {
+    // widget
+    Widget label = UIHelper.text(
+      (uppercase == false) ? action.label : action.label.toUpperCase(),
+      family: null,
+      size: size ?? NativeDialog.alertFontSize,
+      color: action.color ?? color ?? NativeDialog.alertConfirmColor,
+      align: align ?? TextAlign.right,
+      bold: (action.isDefault == true || bold == true),
+    );
+
+    // leading
+    if (leading != null) {
+      label = Row(
+        children: [leading, label],
+      );
+    }
+
+    // done
+    return Decorator(
+      paddingVert: paddingVert ?? materialDialogVerticalButtonPaddingVert,
+      paddingHoriz: paddingHoriz ?? materialDialogVerticalButtonPaddingHoriz,
+      child: label,
+      onTap: action.getOnTap(context),
+    );
+  }
+
+  static Widget _iosButton({
+    BuildContext context,
+    AlertDialogAction action,
+    double size,
+  }) {
+    // widget
+    Widget label = UIHelper.text(
+      action.label,
+      family: null,
+      color: action.color,
+      size: size ?? NativeDialog.alertFontSize,
+    );
+
+    // build
+    return CupertinoActionSheetAction(
+      child: label,
+      isDefaultAction: action.isDefault,
+      onPressed: action.getOnTap(context),
+    );
   }
 }

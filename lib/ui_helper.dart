@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'decorator.dart';
 
 class UIHelper {
-  static Text text(String text,
-      {String family,
-      FontWeight weight,
-      bool bold = false,
-      double size,
-      Color color,
-      int maxLines,
-      TextOverflow overflow,
-      TextAlign align}) {
+  static Text text(
+    String text, {
+    String family,
+    FontWeight weight,
+    bool bold = false,
+    double size,
+    Color color,
+    int maxLines,
+    TextOverflow overflow,
+    TextAlign align,
+  }) {
     // check
     if (text == null) {
       return null;
     }
 
     // weight
-    if (weight == null && bold != null && bold == true) {
+    if (weight == null && bold == true) {
       weight = FontWeight.bold;
     }
 
@@ -92,12 +94,13 @@ class UIHelper {
     );
   }
 
-  static Widget appBar(
-      {@required String title,
-      Color backgroundColor,
-      Widget leading,
-      List<Widget> actions,
-      Color lineColor}) {
+  static Widget appBar({
+    @required String title,
+    Color backgroundColor,
+    Widget leading,
+    List<Widget> actions,
+    Color lineColor,
+  }) {
     return AppBar(
       title: UIHelper.text(title),
       centerTitle: true,
@@ -115,16 +118,20 @@ class UIHelper {
     );
   }
 
-  static Widget appBarAction({String label, Function onTap}) {
+  static Widget appBarAction({
+    String label,
+    Function onTap,
+  }) {
     return Center(
-        child: Decorator(
-      child: UIHelper.text(
-        label,
-        size: 20,
+      child: Decorator(
+        child: UIHelper.text(
+          label,
+          size: 20,
+        ),
+        paddingHoriz: 16,
+        onTap: onTap,
       ),
-      paddingHoriz: 16,
-      onTap: onTap,
-    ));
+    );
   }
 
   static Widget appBarIcon({
