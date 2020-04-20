@@ -1,3 +1,7 @@
+## [0.2.1] - 2020-04-20.
+
+* README.md update
+
 ## [0.2.0] - 2020-04-20.
 
 * Refactor of native dialogs
