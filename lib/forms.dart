@@ -5,14 +5,15 @@ import 'dialog.dart';
 import 'i18n.dart';
 import 'ui_helper.dart';
 
-class FormField extends StatelessWidget {
-  static const double valueFontSize = 20;
-  static const double labelFontSize = 16;
-  static const Color textColor = Colors.white;
+class PaddedFormField extends StatelessWidget {
+
+  static double valueFontSize = 20;
+  static double labelFontSize = 16;
+  static Color textColor = Colors.black;
 
   final Widget child;
 
-  const FormField({
+  const PaddedFormField({
     Key key,
     @required this.child,
   }) : super(key: key);
@@ -99,27 +100,30 @@ class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return FormField(
+    return PaddedFormField(
       child: TextFormField(
         controller: _controller,
         style: TextStyle(
-          color: FormField.textColor,
-          fontSize: FormField.valueFontSize,
+          color: PaddedFormField.textColor,
+          fontSize: PaddedFormField.valueFontSize,
         ),
-        cursorColor: FormField.textColor,
+        cursorColor: PaddedFormField.textColor,
         onChanged: (value) => widget.onChange(value),
         decoration: InputDecoration(
           labelText: widget.label,
-          icon: Icon(widget.icon, color: FormField.textColor),
+          icon: Icon(widget.icon, color: PaddedFormField.textColor),
           labelStyle: TextStyle(
-            color: FormField.textColor,
-            fontSize: FormField.labelFontSize,
+            color: PaddedFormField.textColor,
+            fontSize: PaddedFormField.labelFontSize,
           ),
-          fillColor: FormField.textColor,
-          focusColor: FormField.textColor,
-          hoverColor: FormField.textColor,
+          fillColor: PaddedFormField.textColor,
+          focusColor: PaddedFormField.textColor,
+          hoverColor: PaddedFormField.textColor,
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: FormField.textColor),
+            borderSide: BorderSide(color: PaddedFormField.textColor),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: PaddedFormField.textColor),
           ),
         ),
       ),
@@ -151,24 +155,24 @@ class DropdownField extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return FormField(
+      return PaddedFormField(
           child: DropdownButtonFormField(
         items: values,
         value: initialValue,
         disabledHint: UIHelper.text(
           disabledHint,
-          color: FormField.textColor.withAlpha(90),
-          size: FormField.valueFontSize,
+          color: PaddedFormField.textColor.withAlpha(90),
+          size: PaddedFormField.valueFontSize,
         ),
-        iconEnabledColor: FormField.textColor,
+        iconEnabledColor: PaddedFormField.textColor,
         selectedItemBuilder: (BuildContext context) {
           return values.map<Widget>((value) {
             return Decorator(
               width: constraints.maxWidth - 72, // yes this is totally arbitrary
               child: UIHelper.text(
                 (value.key as ValueKey).value,
-                color: FormField.textColor,
-                size: FormField.valueFontSize,
+                color: PaddedFormField.textColor,
+                size: PaddedFormField.valueFontSize,
                 overflow: TextOverflow.ellipsis,
               ),
             );
@@ -179,18 +183,18 @@ class DropdownField extends StatelessWidget {
           icon: Decorator(
               child: Icon(
                 icon,
-                color: FormField.textColor,
+                color: PaddedFormField.textColor,
               ),
               onTap: () => NativeDialog.info(context, helpText)),
           labelStyle: TextStyle(
-            color: FormField.textColor,
-            fontSize: FormField.labelFontSize,
+            color: PaddedFormField.textColor,
+            fontSize: PaddedFormField.labelFontSize,
           ),
-          fillColor: FormField.textColor,
-          focusColor: FormField.textColor,
-          hoverColor: FormField.textColor,
+          fillColor: PaddedFormField.textColor,
+          focusColor: PaddedFormField.textColor,
+          hoverColor: PaddedFormField.textColor,
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: FormField.textColor),
+            borderSide: BorderSide(color: PaddedFormField.textColor),
           ),
         ),
         onChanged: onChange,
