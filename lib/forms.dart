@@ -6,7 +6,6 @@ import 'i18n.dart';
 import 'ui_helper.dart';
 
 class PaddedFormField extends StatelessWidget {
-
   static double valueFontSize = 20;
   static double labelFontSize = 16;
   static Color textColor = Colors.black;
@@ -20,7 +19,10 @@ class PaddedFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Decorator(child: child, paddingBottom: 32);
+    return Decorator(
+      child: child,
+      paddingBottom: 32,
+    );
   }
 }
 
@@ -44,46 +46,69 @@ class ToggleFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: AbsorbPointer(
-        child: DropdownField(
-          label: label,
-          icon: icon,
-          helpText: helpText,
-          initialValue: initialValue,
-          disabledHint: disabledHint,
-          values: [
-            DropdownMenuItem(
-                value: false,
-                key: ValueKey(I18nUtils.t('no')),
-                child: UIHelper.text(I18nUtils.t('no'))),
-            DropdownMenuItem(
-                value: true,
-                key: ValueKey(I18nUtils.t('yes')),
-                child: UIHelper.text(I18nUtils.t('yes'))),
-          ],
-          onChange: onTap == null ? null : (_) {},
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // <hack>
+        // we need to recreate the decoration icon
+        // otherwise tap on it will be absorbed
+        Decorator(
+          width: 24,
+          marginTop: 20,
+          marginRight: 16,
+          child: Icon(
+            icon,
+            color: PaddedFormField.textColor,
+          ),
+          onTap: () => NativeDialog.info(context, helpText),
         ),
-      ),
-      onTap: onTap,
+        // </hack>
+        Expanded(
+          child: GestureDetector(
+            child: AbsorbPointer(
+              child: DropdownField(
+                label: label,
+                //icon: icon,
+                helpText: helpText,
+                initialValue: initialValue,
+                disabledHint: disabledHint,
+                values: [
+                  DropdownMenuItem(
+                    value: false,
+                    key: ValueKey(I18nUtils.t('no')),
+                    child: UIHelper.text(I18nUtils.t('no')),
+                  ),
+                  DropdownMenuItem(
+                    value: true,
+                    key: ValueKey(I18nUtils.t('yes')),
+                    child: UIHelper.text(I18nUtils.t('yes')),
+                  ),
+                ],
+                onChange: onTap == null ? null : (_) {},
+              ),
+            ),
+            onTap: onTap,
+          ),
+        )
+      ],
     );
   }
 }
 
 class DecoratedTextFormField extends StatefulWidget {
-
   final String label;
   final String value;
   final IconData icon;
   final Function onChange;
 
-  const DecoratedTextFormField(
-      {Key key,
-      @required this.label,
-      @required this.value,
-      this.icon,
-      @required this.onChange})
-      : super(key: key);
+  const DecoratedTextFormField({
+    Key key,
+    @required this.label,
+    @required this.value,
+    this.icon,
+    @required this.onChange,
+  }) : super(key: key);
 
   @override
   _DecoratedTextFormFieldState createState() => _DecoratedTextFormFieldState();
@@ -111,7 +136,10 @@ class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
         onChanged: (value) => widget.onChange(value),
         decoration: InputDecoration(
           labelText: widget.label,
-          icon: Icon(widget.icon, color: PaddedFormField.textColor),
+          icon: Icon(
+            widget.icon,
+            color: PaddedFormField.textColor,
+          ),
           labelStyle: TextStyle(
             color: PaddedFormField.textColor,
             fontSize: PaddedFormField.labelFontSize,
@@ -120,10 +148,14 @@ class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
           focusColor: PaddedFormField.textColor,
           hoverColor: PaddedFormField.textColor,
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: PaddedFormField.textColor),
+            borderSide: BorderSide(
+              color: PaddedFormField.textColor,
+            ),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: PaddedFormField.textColor),
+            borderSide: BorderSide(
+              color: PaddedFormField.textColor,
+            ),
           ),
         ),
       ),
@@ -140,70 +172,78 @@ class DropdownField extends StatelessWidget {
   final String disabledHint;
   final Function onChange;
 
-  const DropdownField(
-      {Key key,
-      @required this.label,
-      @required this.initialValue,
-      @required this.values,
-      this.icon,
-      this.helpText,
-      this.disabledHint,
-      this.onChange})
-      : super(key: key);
+  const DropdownField({
+    Key key,
+    @required this.label,
+    @required this.initialValue,
+    @required this.values,
+    this.icon,
+    this.helpText,
+    this.disabledHint,
+    this.onChange,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return PaddedFormField(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return PaddedFormField(
           child: DropdownButtonFormField(
-        items: values,
-        value: initialValue,
-        disabledHint: UIHelper.text(
-          disabledHint,
-          color: PaddedFormField.textColor.withAlpha(90),
-          size: PaddedFormField.valueFontSize,
-        ),
-        iconEnabledColor: PaddedFormField.textColor,
-        selectedItemBuilder: (BuildContext context) {
-          return values.map<Widget>((value) {
-            return Decorator(
-              width: constraints.maxWidth - 72, // yes this is totally arbitrary
-              child: UIHelper.text(
-                (value.key as ValueKey).value,
+            items: values,
+            value: initialValue,
+            disabledHint: UIHelper.text(
+              disabledHint,
+              color: PaddedFormField.textColor.withAlpha(90),
+              size: PaddedFormField.valueFontSize,
+            ),
+            iconEnabledColor: PaddedFormField.textColor,
+            selectedItemBuilder: (BuildContext context) {
+              return values.map<Widget>((value) {
+                return Decorator(
+                  width: constraints.maxWidth -
+                      72, // yes this is totally arbitrary
+                  child: UIHelper.text(
+                    (value.key as ValueKey).value,
+                    color: PaddedFormField.textColor,
+                    size: PaddedFormField.valueFontSize,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              }).toList();
+            },
+            decoration: InputDecoration(
+              labelText: label,
+              icon: icon == null
+                  ? null
+                  : Decorator(
+                      child: Icon(
+                        icon,
+                        color: PaddedFormField.textColor,
+                      ),
+                      onTap: () => NativeDialog.info(context, helpText),
+                    ),
+              labelStyle: TextStyle(
                 color: PaddedFormField.textColor,
-                size: PaddedFormField.valueFontSize,
-                overflow: TextOverflow.ellipsis,
+                fontSize: PaddedFormField.labelFontSize,
               ),
-            );
-          }).toList();
-        },
-        decoration: InputDecoration(
-          labelText: label,
-          icon: Decorator(
-              child: Icon(
-                icon,
-                color: PaddedFormField.textColor,
+              fillColor: PaddedFormField.textColor,
+              focusColor: PaddedFormField.textColor,
+              hoverColor: PaddedFormField.textColor,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: PaddedFormField.textColor),
               ),
-              onTap: () => NativeDialog.info(context, helpText)),
-          labelStyle: TextStyle(
-            color: PaddedFormField.textColor,
-            fontSize: PaddedFormField.labelFontSize,
+            ),
+            onChanged: onChange,
           ),
-          fillColor: PaddedFormField.textColor,
-          focusColor: PaddedFormField.textColor,
-          hoverColor: PaddedFormField.textColor,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: PaddedFormField.textColor),
-          ),
-        ),
-        onChanged: onChange,
-      ));
-    });
+        );
+      },
+    );
   }
 
   static List<DropdownMenuItem> getEnumValues(
-      BuildContext context, List<dynamic> values) {
+    BuildContext context,
+    List<dynamic> values,
+  ) {
     List<DropdownMenuItem> items = new List();
     for (dynamic value in values) {
       items.add(
