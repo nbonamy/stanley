@@ -63,23 +63,26 @@ class ToggleFormField extends StatelessWidget {
   }
 }
 
-class PlayerTextField extends StatefulWidget {
+class DecoratedTextFormField extends StatefulWidget {
+
   final String label;
   final String value;
+  final IconData icon;
   final Function onChange;
 
-  const PlayerTextField(
+  const DecoratedTextFormField(
       {Key key,
       @required this.label,
       @required this.value,
+      this.icon,
       @required this.onChange})
       : super(key: key);
 
   @override
-  _PlayerTextState createState() => _PlayerTextState();
+  _DecoratedTextFormFieldState createState() => _DecoratedTextFormFieldState();
 }
 
-class _PlayerTextState extends State<PlayerTextField> {
+class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
   TextEditingController _controller;
   @override
   void initState() {
@@ -94,20 +97,27 @@ class _PlayerTextState extends State<PlayerTextField> {
         child: TextFormField(
             controller: _controller,
             style: TextStyle(
-                color: FormField.textColor, fontSize: FormField.valueFontSize),
+          color: FormField.textColor,
+          fontSize: FormField.valueFontSize,
+        ),
             cursorColor: FormField.textColor,
             onChanged: (value) => widget.onChange(value),
             decoration: InputDecoration(
                 labelText: widget.label,
-                icon: Icon(Icons.person, color: FormField.textColor),
+          icon: Icon(widget.icon, color: FormField.textColor),
                 labelStyle: TextStyle(
                     color: FormField.textColor,
-                    fontSize: FormField.labelFontSize),
+            fontSize: FormField.labelFontSize,
+          ),
                 fillColor: FormField.textColor,
                 focusColor: FormField.textColor,
                 hoverColor: FormField.textColor,
                 enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: FormField.textColor)))));
+            borderSide: BorderSide(color: FormField.textColor),
+          ),
+        ),
+      ),
+    );
   }
 }
 
