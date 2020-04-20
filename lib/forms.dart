@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'decorator.dart';
 import 'dialog.dart';
 import 'i18n.dart';
@@ -26,7 +27,7 @@ class ToggleFormField extends StatelessWidget {
   final String label;
   final IconData icon;
   final bool initialValue;
-  final Function onChange;
+  final Function onTap;
   final String helpText;
   final String disabledHint;
 
@@ -35,30 +36,35 @@ class ToggleFormField extends StatelessWidget {
     @required this.label,
     @required this.icon,
     @required this.initialValue,
-    @required this.onChange,
+    @required this.onTap,
     this.helpText,
     this.disabledHint,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DropdownField(
-      label: label,
-      icon: icon,
-      helpText: helpText,
-      initialValue: initialValue,
-      disabledHint: disabledHint,
-      values: [
-        DropdownMenuItem(
-            value: false,
-            key: ValueKey(I18nUtils.t('no')),
-            child: UIHelper.text(I18nUtils.t('no'))),
-        DropdownMenuItem(
-            value: true,
-            key: ValueKey(I18nUtils.t('yes')),
-            child: UIHelper.text(I18nUtils.t('yes'))),
-      ],
-      onChange: onChange,
+    return GestureDetector(
+      child: AbsorbPointer(
+        child: DropdownField(
+          label: label,
+          icon: icon,
+          helpText: helpText,
+          initialValue: initialValue,
+          disabledHint: disabledHint,
+          values: [
+            DropdownMenuItem(
+                value: false,
+                key: ValueKey(I18nUtils.t('no')),
+                child: UIHelper.text(I18nUtils.t('no'))),
+            DropdownMenuItem(
+                value: true,
+                key: ValueKey(I18nUtils.t('yes')),
+                child: UIHelper.text(I18nUtils.t('yes'))),
+          ],
+          onChange: onTap == null ? null : (_) {},
+        ),
+      ),
+      onTap: onTap,
     );
   }
 }
@@ -94,25 +100,25 @@ class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
   @override
   Widget build(BuildContext context) {
     return FormField(
-        child: TextFormField(
-            controller: _controller,
-            style: TextStyle(
+      child: TextFormField(
+        controller: _controller,
+        style: TextStyle(
           color: FormField.textColor,
           fontSize: FormField.valueFontSize,
         ),
-            cursorColor: FormField.textColor,
-            onChanged: (value) => widget.onChange(value),
-            decoration: InputDecoration(
-                labelText: widget.label,
+        cursorColor: FormField.textColor,
+        onChanged: (value) => widget.onChange(value),
+        decoration: InputDecoration(
+          labelText: widget.label,
           icon: Icon(widget.icon, color: FormField.textColor),
-                labelStyle: TextStyle(
-                    color: FormField.textColor,
+          labelStyle: TextStyle(
+            color: FormField.textColor,
             fontSize: FormField.labelFontSize,
           ),
-                fillColor: FormField.textColor,
-                focusColor: FormField.textColor,
-                hoverColor: FormField.textColor,
-                enabledBorder: UnderlineInputBorder(
+          fillColor: FormField.textColor,
+          focusColor: FormField.textColor,
+          hoverColor: FormField.textColor,
+          enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: FormField.textColor),
           ),
         ),
@@ -149,33 +155,44 @@ class DropdownField extends StatelessWidget {
           child: DropdownButtonFormField(
         items: values,
         value: initialValue,
-        disabledHint: UIHelper.text(disabledHint,
-            color: FormField.textColor.withAlpha(90),
-            size: FormField.valueFontSize),
+        disabledHint: UIHelper.text(
+          disabledHint,
+          color: FormField.textColor.withAlpha(90),
+          size: FormField.valueFontSize,
+        ),
         iconEnabledColor: FormField.textColor,
         selectedItemBuilder: (BuildContext context) {
           return values.map<Widget>((value) {
             return Decorator(
-                width:
-                    constraints.maxWidth - 72, // yes this is totally arbitrary
-                child: UIHelper.text((value.key as ValueKey).value,
-                    color: FormField.textColor,
-                    size: FormField.valueFontSize,
-                    overflow: TextOverflow.ellipsis));
+              width: constraints.maxWidth - 72, // yes this is totally arbitrary
+              child: UIHelper.text(
+                (value.key as ValueKey).value,
+                color: FormField.textColor,
+                size: FormField.valueFontSize,
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
           }).toList();
         },
         decoration: InputDecoration(
-            labelText: label,
-            icon: Decorator(
-                child: Icon(icon, color: FormField.textColor),
-                onTap: () => NativeDialog.info(context, helpText)),
-            labelStyle: TextStyle(
-                color: FormField.textColor, fontSize: FormField.labelFontSize),
-            fillColor: FormField.textColor,
-            focusColor: FormField.textColor,
-            hoverColor: FormField.textColor,
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: FormField.textColor))),
+          labelText: label,
+          icon: Decorator(
+              child: Icon(
+                icon,
+                color: FormField.textColor,
+              ),
+              onTap: () => NativeDialog.info(context, helpText)),
+          labelStyle: TextStyle(
+            color: FormField.textColor,
+            fontSize: FormField.labelFontSize,
+          ),
+          fillColor: FormField.textColor,
+          focusColor: FormField.textColor,
+          hoverColor: FormField.textColor,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: FormField.textColor),
+          ),
+        ),
         onChanged: onChange,
       ));
     });
@@ -185,10 +202,13 @@ class DropdownField extends StatelessWidget {
       BuildContext context, List<dynamic> values) {
     List<DropdownMenuItem> items = new List();
     for (dynamic value in values) {
-      items.add(DropdownMenuItem(
+      items.add(
+        DropdownMenuItem(
           value: value,
           key: ValueKey(I18nUtils.getEnumLabel(value)),
-          child: UIHelper.text(I18nUtils.getEnumLabel(value))));
+          child: UIHelper.text(I18nUtils.getEnumLabel(value)),
+        ),
+      );
     }
     return items;
   }
