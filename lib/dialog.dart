@@ -10,7 +10,6 @@ import 'ui_helper.dart';
 class AlertDialogAction {
   final String label;
   final Color color;
-  final bool noUpperCase;
   final bool isDefault;
   final bool autoDismiss;
   final Function onTap;
@@ -18,7 +17,6 @@ class AlertDialogAction {
   AlertDialogAction({
     @required this.label,
     this.color,
-    this.noUpperCase = false,
     this.isDefault = false,
     this.autoDismiss = true,
     this.onTap,
@@ -293,7 +291,11 @@ class NativeDialog {
 
       // depends on platform
       if (forceMaterial == false && NativeDialog.isIOS) {
-        buttons.add(_iosButton(context: context, action: action, size: size));
+        buttons.add(_iosButton(
+          context: context,
+          action: action,
+          size: size,
+        ));
       } else {
         // build
         buttons.add(_androidButton(
