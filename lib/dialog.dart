@@ -77,8 +77,12 @@ class NativeDialog {
   static bool materialSheetBold = false;
   static bool materialSheetUpperCase = false;
 
-  static dynamic info(BuildContext context, String message, {Function onTap}) {
-    NativeDialog.alert(
+  static dynamic info(
+    BuildContext context,
+    String message, {
+    Function onTap,
+  }) {
+    return NativeDialog.alert(
       context: context,
       content: message,
       actions: [
@@ -87,6 +91,40 @@ class NativeDialog {
           onTap: onTap,
         ),
       ],
+    );
+  }
+
+  static dynamic confirm(
+    BuildContext context,
+    String message,
+    Function onTap, {
+    bool destructive = false,
+  }) {
+    // actions
+    List<AlertDialogAction> actions = [
+      AlertDialogAction(
+        label: I18nUtils.t('no'),
+        color: destructive ? null : NativeDialog.alertCancelColor,
+        isDefault: destructive,
+      ),
+      AlertDialogAction(
+        label: I18nUtils.t('yes'),
+        color: destructive ? NativeDialog.alertCancelColor : null,
+        isDefault: !destructive,
+        onTap: onTap,
+      ),
+    ];
+
+    // destructive should not be default
+    if (destructive) {
+      actions = actions.reversed.toList();
+    }
+
+    // show
+    return NativeDialog.alert(
+      context: context,
+      content: message,
+      actions: actions,
     );
   }
 
