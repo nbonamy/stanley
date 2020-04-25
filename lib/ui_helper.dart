@@ -107,7 +107,9 @@ class UIHelper {
       leading: leading,
       actions: actions,
       backgroundColor: backgroundColor,
-      elevation: (lineColor == null ? null : (lineColor == Colors.transparent ? 0 : 0.6)),
+      elevation: (lineColor == null
+          ? null
+          : (lineColor == Colors.transparent ? 0 : 0.6)),
       shape: lineColor == null
           ? null
           : Border(

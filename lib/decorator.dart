@@ -87,7 +87,21 @@ class Decorator extends StatelessWidget {
     );
 
     // check if container is needed
-    if ((width != null || height != null) || (padding.left != 0.0 || padding.top != 0.0 || padding.right != 0.0 || padding.bottom != 0.0) || (minWidth != 0.0 || maxWidth != double.infinity || minHeight != 0.0 || maxHeight != double.infinity) || (borderWidth != 0.0 || borderLeft != 0.0 || borderTop != 0.0 || borderRight != 0.0 || borderBottom != 0.0) || (backgroundColor != Colors.transparent || borderRadius != 0.0)) {
+    if ((width != null || height != null) ||
+        (padding.left != 0.0 ||
+            padding.top != 0.0 ||
+            padding.right != 0.0 ||
+            padding.bottom != 0.0) ||
+        (minWidth != 0.0 ||
+            maxWidth != double.infinity ||
+            minHeight != 0.0 ||
+            maxHeight != double.infinity) ||
+        (borderWidth != 0.0 ||
+            borderLeft != 0.0 ||
+            borderTop != 0.0 ||
+            borderRight != 0.0 ||
+            borderBottom != 0.0) ||
+        (backgroundColor != Colors.transparent || borderRadius != 0.0)) {
       // adjust border size
       double _borderLeft = (borderLeft != 0.0 ? borderLeft : borderWidth);
       double _borderTop = (borderTop != 0.0 ? borderTop : borderWidth);
@@ -129,7 +143,8 @@ class Decorator extends StatelessWidget {
                   width: _borderRight,
                 ),
                 bottom: BorderSide(
-                  color: _borderBottom == 0.0 ? Colors.transparent : borderColor,
+                  color:
+                      _borderBottom == 0.0 ? Colors.transparent : borderColor,
                   width: _borderBottom,
                 ),
               )),
@@ -162,7 +177,10 @@ class Decorator extends StatelessWidget {
       marginRight,
       marginBottom,
     );
-    if (margin.left != 0.0 || margin.top != 0.0 || margin.right != 0.0 || margin.bottom != 0.0) {
+    if (margin.left != 0.0 ||
+        margin.top != 0.0 ||
+        margin.right != 0.0 ||
+        margin.bottom != 0.0) {
       result = Container(
         padding: margin,
         child: result,
