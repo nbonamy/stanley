@@ -76,25 +76,18 @@ class Decorator extends StatelessWidget {
     Widget result = child;
 
     // padding
-    EdgeInsets padding = UIHelper.calcEdgeInsets(paddingAll, paddingHoriz,
-        paddingVert, paddingLeft, paddingTop, paddingRight, paddingBottom);
+    EdgeInsets padding = UIHelper.calcEdgeInsets(
+      paddingAll,
+      paddingHoriz,
+      paddingVert,
+      paddingLeft,
+      paddingTop,
+      paddingRight,
+      paddingBottom,
+    );
 
     // check if container is needed
-    if ((width != null || height != null) ||
-        (padding.left != 0.0 ||
-            padding.top != 0.0 ||
-            padding.right != 0.0 ||
-            padding.bottom != 0.0) ||
-        (minWidth != 0.0 ||
-            maxWidth != double.infinity ||
-            minHeight != 0.0 ||
-            maxHeight != double.infinity) ||
-        (borderWidth != 0.0 ||
-            borderLeft != 0.0 ||
-            borderTop != 0.0 ||
-            borderRight != 0.0 ||
-            borderBottom != 0.0) ||
-        (backgroundColor != Colors.transparent || borderRadius != 0.0)) {
+    if ((width != null || height != null) || (padding.left != 0.0 || padding.top != 0.0 || padding.right != 0.0 || padding.bottom != 0.0) || (minWidth != 0.0 || maxWidth != double.infinity || minHeight != 0.0 || maxHeight != double.infinity) || (borderWidth != 0.0 || borderLeft != 0.0 || borderTop != 0.0 || borderRight != 0.0 || borderBottom != 0.0) || (backgroundColor != Colors.transparent || borderRadius != 0.0)) {
       // adjust border size
       double _borderLeft = (borderLeft != 0.0 ? borderLeft : borderWidth);
       double _borderTop = (borderTop != 0.0 ? borderTop : borderWidth);
@@ -108,53 +101,72 @@ class Decorator extends StatelessWidget {
           padding: padding,
           alignment: centered ? Alignment.center : null,
           constraints: BoxConstraints(
-              minWidth: minWidth,
-              maxWidth: maxWidth,
-              minHeight: minHeight,
-              maxHeight: maxHeight),
+            minWidth: minWidth,
+            maxWidth: maxWidth,
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+          ),
           decoration: new BoxDecoration(
               color: backgroundColor,
               borderRadius: borderRadius == 0.0
                   ? null
-                  : BorderRadius.all(Radius.circular(borderRadius)),
+                  : BorderRadius.all(
+                      Radius.circular(
+                        borderRadius,
+                      ),
+                    ),
               border: Border(
                 left: BorderSide(
-                    color:
-                        _borderLeft == 0.0 ? Colors.transparent : borderColor,
-                    width: _borderLeft),
+                  color: _borderLeft == 0.0 ? Colors.transparent : borderColor,
+                  width: _borderLeft,
+                ),
                 top: BorderSide(
-                    color: _borderTop == 0.0 ? Colors.transparent : borderColor,
-                    width: _borderTop),
+                  color: _borderTop == 0.0 ? Colors.transparent : borderColor,
+                  width: _borderTop,
+                ),
                 right: BorderSide(
-                    color:
-                        _borderRight == 0.0 ? Colors.transparent : borderColor,
-                    width: _borderRight),
+                  color: _borderRight == 0.0 ? Colors.transparent : borderColor,
+                  width: _borderRight,
+                ),
                 bottom: BorderSide(
-                    color:
-                        _borderBottom == 0.0 ? Colors.transparent : borderColor,
-                    width: _borderBottom),
+                  color: _borderBottom == 0.0 ? Colors.transparent : borderColor,
+                  width: _borderBottom,
+                ),
               )),
           child: result);
     }
 
     // full width
     if (fullWidth) {
-      result = SizedBox(width: double.infinity, child: result);
+      result = SizedBox(
+        width: double.infinity,
+        child: result,
+      );
     }
 
     // tap
     if (onTap != null) {
-      result = GestureDetector(onTap: onTap, child: result);
+      result = GestureDetector(
+        onTap: onTap,
+        child: result,
+      );
     }
 
     // margin
-    EdgeInsets margin = UIHelper.calcEdgeInsets(marginAll, marginHoriz,
-        marginVert, marginLeft, marginTop, marginRight, marginBottom);
-    if (margin.left != 0.0 ||
-        margin.top != 0.0 ||
-        margin.right != 0.0 ||
-        margin.bottom != 0.0) {
-      result = Container(padding: margin, child: result);
+    EdgeInsets margin = UIHelper.calcEdgeInsets(
+      marginAll,
+      marginHoriz,
+      marginVert,
+      marginLeft,
+      marginTop,
+      marginRight,
+      marginBottom,
+    );
+    if (margin.left != 0.0 || margin.top != 0.0 || margin.right != 0.0 || margin.bottom != 0.0) {
+      result = Container(
+        padding: margin,
+        child: result,
+      );
     }
 
     // done

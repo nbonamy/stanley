@@ -61,7 +61,10 @@ class ToggleFormField extends StatelessWidget {
             icon,
             color: PaddedFormField.textColor,
           ),
-          onTap: () => NativeDialog.info(context, helpText),
+          onTap: () => NativeDialog.info(
+            context,
+            helpText,
+          ),
         ),
         // </hack>
         Expanded(
@@ -200,8 +203,7 @@ class DropdownField extends StatelessWidget {
             selectedItemBuilder: (BuildContext context) {
               return values.map<Widget>((value) {
                 return Decorator(
-                  width: constraints.maxWidth -
-                      72, // yes this is totally arbitrary
+                  width: constraints.maxWidth - 72, // yes this is totally arbitrary
                   child: UIHelper.text(
                     (value.key as ValueKey).value,
                     color: PaddedFormField.textColor,
@@ -220,7 +222,10 @@ class DropdownField extends StatelessWidget {
                         icon,
                         color: PaddedFormField.textColor,
                       ),
-                      onTap: () => NativeDialog.info(context, helpText),
+                      onTap: () => NativeDialog.info(
+                        context,
+                        helpText,
+                      ),
                     ),
               labelStyle: TextStyle(
                 color: PaddedFormField.textColor,
@@ -230,7 +235,9 @@ class DropdownField extends StatelessWidget {
               focusColor: PaddedFormField.textColor,
               hoverColor: PaddedFormField.textColor,
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: PaddedFormField.textColor),
+                borderSide: BorderSide(
+                  color: PaddedFormField.textColor,
+                ),
               ),
             ),
             onChanged: onChange,

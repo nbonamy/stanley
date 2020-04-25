@@ -61,8 +61,7 @@ class NativeDialog {
   static bool isAndroid = !NativeDialog.isIOS;
 
   static double alertFontSize = NativeDialog.isIOS ? 19 : 18;
-  static Color alertCancelColor =
-      NativeDialog.isIOS ? Color(0xfff1453d) : Color(0xffad2323);
+  static Color alertCancelColor = NativeDialog.isIOS ? Color(0xfff1453d) : Color(0xffad2323);
   static Color alertConfirmColor = Color(0xff0a620c);
   static Color alertNeutralColor = Colors.blue;
 
@@ -220,24 +219,34 @@ class NativeDialog {
       showCupertinoModalPopup(
         context: context,
         builder: (context) => CupertinoActionSheet(
-          title: UIHelper.text(title, size: alertFontSize),
-          actions: _buildButtons(context, actions, null),
+          title: UIHelper.text(
+            title,
+            size: alertFontSize,
+          ),
+          actions: _buildButtons(
+            context,
+            actions,
+            null,
+          ),
           cancelButton: cancelAction == null
               ? null
-              : _buildButtons(context, null, cancelAction).first,
+              : _buildButtons(
+                  context,
+                  null,
+                  cancelAction,
+                ).first,
         ),
       );
     } else {
       // height
       if (height == null) {
-        int itemCount = (title == null ? 0 : 1) +
-            (actions == null ? 0 : actions.length) +
-            (cancelAction == null ? 0 : 1);
-        double itemHeight = NativeDialog.alertFontSize * 1.5 +
-            materialSheetButtonPaddingVert * 2;
+        int itemCount = (title == null ? 0 : 1) + (actions == null ? 0 : actions.length) + (cancelAction == null ? 0 : 1);
+        double itemHeight = NativeDialog.alertFontSize * 1.5 + materialSheetButtonPaddingVert * 2;
         double maxHeight = MediaQuery.of(context).size.height * 0.66;
-        height = min(maxHeight,
-            itemCount * itemHeight + materialSheetButtonBottomMargin);
+        height = min(
+          maxHeight,
+          itemCount * itemHeight + materialSheetButtonBottomMargin,
+        );
       }
 
       // build title
@@ -380,7 +389,10 @@ class NativeDialog {
     // leading
     if (leading != null) {
       label = Row(
-        children: [leading, label],
+        children: [
+          leading,
+          label,
+        ],
       );
     }
 
