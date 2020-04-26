@@ -1,3 +1,7 @@
+## [0.4.0] - 2020-04-25
+
+* Tabs with appbar actions dynamic update
+
 ## [0.3.0] - 2020-04-25
 
 * Progress indicator
