@@ -173,7 +173,7 @@ class NativeDialog {
     // show
     return NativeDialog.alert(
       context: context,
-      content: message,
+      title: message,
       actions: actions,
     );
   }
