@@ -1,3 +1,7 @@
+## [0.5.0] - 2020-04-30
+
+* Improved iOS dialog fidelity
+
 ## [0.4.0] - 2020-04-25
 
 * Tabs with appbar actions dynamic update

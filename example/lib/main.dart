@@ -105,7 +105,8 @@ class DemoState extends BaseTabState<DemoTab> {
           onTap: () {
             NativeDialog.alert(
               context: context,
-              content: 'Are you sure?',
+              title: 'Are you sure?',
+              content: 'Press "yes" only if you\'re really sure!',
               actions: [
                 AlertDialogAction.cancel(
                   label: tr('no'),
@@ -126,7 +127,7 @@ class DemoState extends BaseTabState<DemoTab> {
           onTap: () {
             NativeDialog.alert(
               context: context,
-              content: 'Please select one',
+              title: 'Please select one',
               actions: [
                 AlertDialogAction(
                   label: 'Green',

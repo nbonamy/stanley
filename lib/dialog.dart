@@ -22,6 +22,27 @@ class AlertDialogAction {
     this.onTap,
   });
 
+  static AlertDialogAction confirm({
+    String label,
+    bool isDefault = false,
+    bool autoDismiss = true,
+    Function onTap,
+  }) {
+    // default value
+    if (label == null) {
+      label = I18nUtils.t('ok');
+    }
+
+    // fallback
+    return AlertDialogAction(
+      label: label,
+      color: NativeDialog.isIOS ? null : NativeDialog.alertConfirmColor,
+      isDefault: isDefault,
+      autoDismiss: autoDismiss,
+      onTap: onTap,
+    );
+  }
+
   static AlertDialogAction cancel({
     String label,
     bool isDefault = false,
@@ -60,11 +81,12 @@ class NativeDialog {
   static bool isIOS = Platform.isIOS;
   static bool isAndroid = !NativeDialog.isIOS;
 
-  static double alertFontSize = NativeDialog.isIOS ? 19 : 18;
+  static double alertFontSize = NativeDialog.isIOS ? 17 : 18;
+
   static Color alertCancelColor =
-      NativeDialog.isIOS ? Color(0xfff1453d) : Color(0xffad2323);
-  static Color alertConfirmColor = Color(0xff0a620c);
-  static Color alertNeutralColor = Colors.blue;
+      NativeDialog.isIOS ? CupertinoColors.destructiveRed : Color(0xffd32f2f);
+  static Color alertConfirmColor = Color(0xff2e7d32);
+  static Color alertNeutralColor = Color(0xff1976d2);
 
   static int materialVerticalDialogThreshold = 2;
   static double materialDialogVerticalButtonPaddingHoriz = 8;
@@ -73,9 +95,37 @@ class NativeDialog {
   static double materialSheetButtonPaddingHoriz = 4;
   static double materialSheetButtonPaddingVert = 8;
   static double materialSheetButtonBottomMargin = 0;
-  static double materialSheetFontSize = alertFontSize;
   static bool materialSheetBold = false;
   static bool materialSheetUpperCase = false;
+  static Color materialSheetActionColor = alertNeutralColor;
+
+  static double get alertTitleFontSize {
+    return Platform.isIOS ? alertFontSize : alertFontSize;
+  }
+
+  static double get alertContentFontSize {
+    return Platform.isIOS ? alertFontSize - 3 : alertFontSize;
+  }
+
+  static double get alertActionsFontSize {
+    return alertFontSize;
+  }
+
+  static double get sheetActionsFontSize {
+    return alertFontSize + 2;
+  }
+
+  static double get materialSheetFontSize {
+    return alertFontSize + 1;
+  }
+
+  static FontWeight get normalFontWeight {
+    return NativeDialog.isIOS ? FontWeight.w400 : FontWeight.normal;
+  }
+
+  static FontWeight get boldFontWeight {
+    return NativeDialog.isIOS ? FontWeight.w500 : FontWeight.bold;
+  }
 
   static dynamic info(
     BuildContext context,
@@ -84,7 +134,7 @@ class NativeDialog {
   }) {
     return NativeDialog.alert(
       context: context,
-      content: message,
+      title: message,
       actions: [
         AlertDialogAction(
           label: I18nUtils.t('ok'),
@@ -104,12 +154,12 @@ class NativeDialog {
     List<AlertDialogAction> actions = [
       AlertDialogAction(
         label: I18nUtils.t('no'),
-        color: destructive ? null : NativeDialog.alertCancelColor,
+        color: destructive ? NativeDialog.alertConfirmColor : NativeDialog.alertCancelColor,
         isDefault: destructive,
       ),
       AlertDialogAction(
         label: I18nUtils.t('yes'),
-        color: destructive ? NativeDialog.alertCancelColor : null,
+        color: destructive ? NativeDialog.alertCancelColor : NativeDialog.alertConfirmColor,
         isDefault: !destructive,
         onTap: onTap,
       ),
@@ -158,15 +208,18 @@ class NativeDialog {
       title = UIHelper.text(
         title,
         family: null,
-        size: NativeDialog.alertFontSize,
-        weight: FontWeight.bold,
+        size: alertTitleFontSize,
+        weight: content == null
+            ? normalFontWeight
+            : boldFontWeight,
       );
     }
     if (content is String) {
       content = UIHelper.text(
         content,
         family: null,
-        size: NativeDialog.alertFontSize,
+        size: alertContentFontSize,
+        weight: normalFontWeight,
       );
     }
 
@@ -199,16 +252,24 @@ class NativeDialog {
     }
 
     // show the dialog
-    return showDialog(
-      context: context,
-      barrierDismissible: !modal,
-      builder: (context) => alert,
-    );
+    if (NativeDialog.isIOS) {
+      return showCupertinoDialog(
+        context: context,
+        builder: (context) => alert,
+      );
+    } else {
+      return showDialog(
+        context: context,
+        barrierDismissible: !modal,
+        builder: (context) => alert,
+      );
+    }
   }
 
   static void bottomSheet({
     @required BuildContext context,
     String title,
+    String content,
     @required List<AlertDialogAction> actions,
     AlertDialogAction cancelAction,
     bool forceMaterial = false,
@@ -222,12 +283,18 @@ class NativeDialog {
         builder: (context) => CupertinoActionSheet(
           title: UIHelper.text(
             title,
-            size: alertFontSize,
+            size: alertContentFontSize,
+            weight: boldFontWeight,
+          ),
+          message: UIHelper.text(
+            content,
+            size: alertContentFontSize,
           ),
           actions: _buildButtons(
             context,
             actions,
             null,
+            forActionSheet: true,
           ),
           cancelButton: cancelAction == null
               ? null
@@ -235,6 +302,7 @@ class NativeDialog {
                   context,
                   null,
                   cancelAction,
+                  forActionSheet: true,
                 ).first,
         ),
       );
@@ -244,8 +312,8 @@ class NativeDialog {
         int itemCount = (title == null ? 0 : 1) +
             (actions == null ? 0 : actions.length) +
             (cancelAction == null ? 0 : 1);
-        double itemHeight = NativeDialog.alertFontSize * 1.5 +
-            materialSheetButtonPaddingVert * 2;
+        double itemHeight =
+            materialSheetFontSize * 1.5 + materialSheetButtonPaddingVert * 2;
         double maxHeight = MediaQuery.of(context).size.height * 0.66;
         height = min(
           maxHeight,
@@ -260,9 +328,9 @@ class NativeDialog {
           paddingBottom: 8,
           child: UIHelper.text(
             title?.toUpperCase(),
-            size: 16,
+            size: alertTitleFontSize,
             color: titleColor,
-            bold: true,
+            weight: boldFontWeight,
             align: TextAlign.end,
           ),
         ),
@@ -273,13 +341,14 @@ class NativeDialog {
         context,
         actions,
         cancelAction,
+        forActionSheet: true,
         forceMaterial: forceMaterial,
         paddingVert: materialSheetButtonPaddingVert,
         paddingHoriz: materialSheetButtonPaddingHoriz,
         size: materialSheetFontSize,
         bold: materialSheetBold,
         uppercase: materialSheetUpperCase,
-        color: Colors.black,
+        color: materialSheetActionColor,
         align: TextAlign.end,
       );
 
@@ -316,6 +385,7 @@ class NativeDialog {
     List<AlertDialogAction> actions,
     AlertDialogAction cancelAction, {
     bool forceMaterial = false,
+    bool forActionSheet = false,
     double paddingVert,
     double paddingHoriz,
     bool uppercase,
@@ -345,6 +415,7 @@ class NativeDialog {
         buttons.add(_iosButton(
           context: context,
           action: action,
+          forActionSheet: forActionSheet,
           size: size,
         ));
       } else {
@@ -384,8 +455,8 @@ class NativeDialog {
     Widget label = UIHelper.text(
       (uppercase == false) ? action.label : action.label.toUpperCase(),
       family: null,
-      size: size ?? NativeDialog.alertFontSize,
-      color: action.color ?? color ?? NativeDialog.alertConfirmColor,
+      size: size ?? alertActionsFontSize,
+      color: action.color ?? color ?? NativeDialog.alertNeutralColor,
       align: align ?? TextAlign.right,
       bold: (action.isDefault == true || bold == true),
     );
@@ -412,21 +483,33 @@ class NativeDialog {
   static Widget _iosButton({
     BuildContext context,
     AlertDialogAction action,
+    bool forActionSheet,
     double size,
   }) {
     // widget
     Widget label = UIHelper.text(
       action.label,
       family: null,
-      color: action.color,
-      size: size ?? NativeDialog.alertFontSize,
+      weight: action.isDefault ? boldFontWeight : normalFontWeight,
+      color: action.color ?? CupertinoColors.systemBlue,
+      size: size ??
+          (forActionSheet ? sheetActionsFontSize : alertActionsFontSize),
     );
 
     // build
-    return CupertinoActionSheetAction(
-      child: label,
-      isDefaultAction: action.isDefault,
-      onPressed: action.getOnTap(context),
-    );
+    if (forActionSheet) {
+      return CupertinoActionSheetAction(
+        child: label,
+        isDefaultAction: action.isDefault,
+        onPressed: action.getOnTap(context),
+      );
+    } else {
+      return FlatButton(
+        child: label,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onPressed: action.getOnTap(context),
+      );
+    }
   }
 }
