@@ -47,5 +47,5 @@ All widgets include the possibility to attach an icon as decoration that can be 
 
 Widgets include:
 - `DecoratedTextFormField`: safe explanatory
-- `DropdownField`: encapsulated `DropdownButtonFormField``
+- `DropdownField`: encapsulated `DropdownButtonFormField`
 - `ToggleFormField`: specialized `DropdownField` for boolean choices
