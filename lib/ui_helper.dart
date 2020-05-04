@@ -121,8 +121,8 @@ class UIHelper {
   }
 
   static Widget appBarAction({
-    String label,
-    Function onTap,
+    @required String label,
+    @required Function onTap,
   }) {
     return Center(
       child: Decorator(
@@ -137,8 +137,8 @@ class UIHelper {
   }
 
   static Widget appBarIcon({
-    IconData icon,
-    Function onTap,
+    @required IconData icon,
+    @required Function onTap,
   }) {
     return IconButton(
       icon: Icon(icon),
