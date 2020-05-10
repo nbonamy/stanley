@@ -7,6 +7,7 @@ class UIHelper {
     String family,
     FontWeight weight,
     bool bold = false,
+    bool italic = false,
     double size,
     Color color,
     int maxLines,
@@ -33,6 +34,7 @@ class UIHelper {
         fontFamily: family,
         fontSize: size,
         fontWeight: weight,
+        fontStyle: italic == true ? FontStyle.italic : null,
         color: color,
       ),
     );
@@ -55,6 +57,7 @@ class UIHelper {
     double paddingBottom = -1,
     bool scroll = false,
     ScrollPhysics scrollPhysics,
+    FloatingActionButton floatingActionButton,
     Widget bottomBar,
   }) {
     // add padding
@@ -90,6 +93,7 @@ class UIHelper {
         lineColor: underlineColor,
       ),
       body: result,
+      floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomBar,
     );
   }
@@ -121,18 +125,28 @@ class UIHelper {
   }
 
   static Widget appBarAction({
+    @required Widget child,
+    @required Function onTap,
+    double paddingHoriz = 8,
+  }) {
+    return Decorator(
+      alignment: Alignment.center,
+      child: child,
+      paddingHoriz: paddingHoriz,
+      onTap: onTap,
+    );
+  }
+
+  static Widget appBarText({
     @required String label,
     @required Function onTap,
   }) {
-    return Center(
-      child: Decorator(
-        child: UIHelper.text(
-          label,
-          size: 20,
-        ),
-        paddingHoriz: 16,
-        onTap: onTap,
+    return appBarAction(
+      child: UIHelper.text(
+        label,
+        size: 20,
       ),
+      onTap: onTap,
     );
   }
 
@@ -143,6 +157,20 @@ class UIHelper {
     return IconButton(
       icon: Icon(icon),
       onPressed: onTap,
+    );
+  }
+
+  static Widget appBarImage({
+    @required Image image,
+    @required Function onTap,
+  }) {
+    return appBarAction(
+      child: Decorator(
+        height: 28,
+        child: image
+      ),
+      paddingHoriz: 0,
+      onTap: onTap,
     );
   }
 

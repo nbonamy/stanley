@@ -1,6 +1,7 @@
 library stanley;
 
 export 'package:stanley/utils.dart';
+export 'package:stanley/keyboard.dart';
 export 'package:stanley/ui_helper.dart';
 export 'package:stanley/decorator.dart';
 export 'package:stanley/dialog.dart';

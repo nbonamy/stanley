@@ -357,7 +357,6 @@ class NativeDialog {
         context: context,
         isScrollControlled: true,
         builder: (context) => Decorator(
-          fullWidth: true,
           height: height,
           borderColor: Colors.black.withAlpha(80),
           borderTop: 1,
