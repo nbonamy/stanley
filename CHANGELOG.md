@@ -1,3 +1,11 @@
+## [0.6.0] - 2020-05-09
+
+* Keyboard hider
+* Support for flex
+* Support for italic in text
+* Support for FAB in scaffold
+* Support for images in ActionBar
+
 ## [0.5.0] - 2020-04-30
 
 * Improved iOS dialog fidelity
