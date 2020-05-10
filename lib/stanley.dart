@@ -1,10 +1,10 @@
 library stanley;
 
-export 'package:stanley/utils.dart';
-export 'package:stanley/keyboard.dart';
-export 'package:stanley/ui_helper.dart';
-export 'package:stanley/decorator.dart';
-export 'package:stanley/dialog.dart';
-export 'package:stanley/forms.dart';
-export 'package:stanley/tabs.dart';
-export 'package:stanley/i18n.dart';
+export 'package:stanley/src/utils.dart';
+export 'package:stanley/src/keyboard.dart';
+export 'package:stanley/src/ui_helper.dart';
+export 'package:stanley/src/decorator.dart';
+export 'package:stanley/src/dialog.dart';
+export 'package:stanley/src/forms.dart';
+export 'package:stanley/src/tabs.dart';
+export 'package:stanley/src/i18n.dart';
