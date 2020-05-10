@@ -154,12 +154,16 @@ class NativeDialog {
     List<AlertDialogAction> actions = [
       AlertDialogAction(
         label: I18nUtils.t('no'),
-        color: destructive ? NativeDialog.alertConfirmColor : NativeDialog.alertCancelColor,
+        color: destructive
+            ? NativeDialog.alertConfirmColor
+            : NativeDialog.alertCancelColor,
         isDefault: destructive,
       ),
       AlertDialogAction(
         label: I18nUtils.t('yes'),
-        color: destructive ? NativeDialog.alertCancelColor : NativeDialog.alertConfirmColor,
+        color: destructive
+            ? NativeDialog.alertCancelColor
+            : NativeDialog.alertConfirmColor,
         isDefault: !destructive,
         onTap: onTap,
       ),
@@ -209,9 +213,7 @@ class NativeDialog {
         title,
         family: null,
         size: alertTitleFontSize,
-        weight: content == null
-            ? normalFontWeight
-            : boldFontWeight,
+        weight: content == null ? normalFontWeight : boldFontWeight,
       );
     }
     if (content is String) {

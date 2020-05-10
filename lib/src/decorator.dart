@@ -156,11 +156,7 @@ class Decorator extends StatelessWidget {
 
     // flex
     if (flex != null || fit != null) {
-      result = Flexible(
-        flex: flex,
-        fit: fit,
-        child: result
-      );
+      result = Flexible(flex: flex, fit: fit, child: result);
     }
 
     // alignment

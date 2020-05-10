@@ -165,10 +165,7 @@ class UIHelper {
     @required Function onTap,
   }) {
     return appBarAction(
-      child: Decorator(
-        height: 28,
-        child: image
-      ),
+      child: Decorator(height: 28, child: image),
       paddingHoriz: 0,
       onTap: onTap,
     );
