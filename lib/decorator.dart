@@ -3,6 +3,8 @@ import 'ui_helper.dart';
 
 class Decorator extends StatelessWidget {
   final Widget child;
+  final int flex;
+  final FlexFit fit;
   final double width;
   final double height;
   final double marginAll;
@@ -31,13 +33,15 @@ class Decorator extends StatelessWidget {
   final double borderBottom;
   final Color backgroundColor;
   final double borderRadius;
+  final Alignment alignment;
   final bool centered;
-  final bool fullWidth;
   final Function onTap;
 
   const Decorator({
     Key key,
     @required this.child,
+    this.flex,
+    this.fit,
     this.width,
     this.height,
     this.marginAll = 0,
@@ -67,7 +71,7 @@ class Decorator extends StatelessWidget {
     this.backgroundColor = Colors.transparent,
     this.borderRadius = 0.0,
     this.centered = false,
-    this.fullWidth = false,
+    this.alignment,
     this.onTap,
   }) : super(key: key);
 
@@ -113,7 +117,6 @@ class Decorator extends StatelessWidget {
           width: width,
           height: height,
           padding: padding,
-          alignment: centered ? Alignment.center : null,
           constraints: BoxConstraints(
             minWidth: minWidth,
             maxWidth: maxWidth,
@@ -151,10 +154,19 @@ class Decorator extends StatelessWidget {
           child: result);
     }
 
-    // full width
-    if (fullWidth) {
-      result = SizedBox(
-        width: double.infinity,
+    // flex
+    if (flex != null || fit != null) {
+      result = Flexible(
+        flex: flex,
+        fit: fit,
+        child: result
+      );
+    }
+
+    // alignment
+    if (alignment != null || centered == true) {
+      result = Align(
+        alignment: alignment ?? (centered == true ? Alignment.center : null),
         child: result,
       );
     }
@@ -181,7 +193,7 @@ class Decorator extends StatelessWidget {
         margin.top != 0.0 ||
         margin.right != 0.0 ||
         margin.bottom != 0.0) {
-      result = Container(
+      result = Padding(
         padding: margin,
         child: result,
       );
