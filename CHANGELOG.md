@@ -1,3 +1,7 @@
+## [0.6.2] - 2020-05-10
+
+* Fix Decorator when using Flex and GestureDetector simultaneously
+
 ## [0.6.1] - 2020-05-09
 
 * Format
