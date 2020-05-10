@@ -154,6 +154,14 @@ class Decorator extends StatelessWidget {
           child: result);
     }
 
+    // tap
+    if (onTap != null) {
+      result = GestureDetector(
+        onTap: onTap,
+        child: result,
+      );
+    }
+
     // flex
     if (flex != null || fit != null) {
       result = Flexible(flex: flex, fit: fit, child: result);
@@ -163,14 +171,6 @@ class Decorator extends StatelessWidget {
     if (alignment != null || centered == true) {
       result = Align(
         alignment: alignment ?? (centered == true ? Alignment.center : null),
-        child: result,
-      );
-    }
-
-    // tap
-    if (onTap != null) {
-      result = GestureDetector(
-        onTap: onTap,
         child: result,
       );
     }
