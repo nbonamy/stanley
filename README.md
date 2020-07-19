@@ -11,7 +11,7 @@ As of now, stanley is an opiniated package which includes dependencies to:
 
 ### Decorator
 
-A all-in-one budget to manage layout and styling of other widgets. Based on the properties set, `Decorator` will encapsulate the child wigdet with whatever is needed to support:
+A all-in-one widget to manage layout and styling of other widgets. Based on the properties set, `Decorator` will encapsulate the child wigdet with whatever is needed to support:
 - Sizing
 - Margins
 - Paddings
