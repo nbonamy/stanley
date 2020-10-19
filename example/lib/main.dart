@@ -61,11 +61,11 @@ class _MyHomePageState extends BottomBarState<MyHomePage> {
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.apps),
-            title: UIHelper.text('Demo'),
+            label: 'Demo',
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.share),
-            title: UIHelper.text('Share'),
+            label: 'Share',
           ),
         ],
       ),
