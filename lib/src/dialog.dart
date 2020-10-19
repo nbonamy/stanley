@@ -83,10 +83,9 @@ class NativeDialog {
 
   static double alertFontSize = NativeDialog.isIOS ? 17 : 18;
 
-  static Color alertCancelColor =
-      NativeDialog.isIOS ? CupertinoColors.destructiveRed : Color(0xffd32f2f);
-  static Color alertConfirmColor = Color(0xff2e7d32);
-  static Color alertNeutralColor = Color(0xff1976d2);
+  static Color alertCancelColor = NativeDialog.isIOS ? CupertinoColors.destructiveRed : Color(0xffd32f2f);
+  static Color alertConfirmColor = NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff2e7d32);
+  static Color alertNeutralColor = NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff1976d2);
 
   static int materialVerticalDialogThreshold = 2;
   static double materialDialogVerticalButtonPaddingHoriz = 8;
