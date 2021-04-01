@@ -83,9 +83,12 @@ class NativeDialog {
 
   static double alertFontSize = NativeDialog.isIOS ? 17 : 18;
 
-  static Color alertCancelColor = NativeDialog.isIOS ? CupertinoColors.destructiveRed : Color(0xffd32f2f);
-  static Color alertConfirmColor = NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff2e7d32);
-  static Color alertNeutralColor = NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff1976d2);
+  static Color alertCancelColor =
+      NativeDialog.isIOS ? CupertinoColors.destructiveRed : Color(0xffd32f2f);
+  static Color alertConfirmColor =
+      NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff2e7d32);
+  static Color alertNeutralColor =
+      NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff1976d2);
 
   static int materialVerticalDialogThreshold = 2;
   static double materialDialogVerticalButtonPaddingHoriz = 8;
@@ -396,14 +399,14 @@ class NativeDialog {
     Widget leading,
   }) {
     // render in one pass
-    List<AlertDialogAction> actionsToRender = List();
+    List<AlertDialogAction> actionsToRender = [];
     if (actions != null) {
       actionsToRender.addAll(actions);
     }
     actionsToRender.add(cancelAction);
 
     // now render them all
-    List<Widget> buttons = new List();
+    List<Widget> buttons = [];
     for (AlertDialogAction action in actionsToRender) {
       // we may allow null
       if (action == null) {

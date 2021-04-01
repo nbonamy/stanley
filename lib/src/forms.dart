@@ -252,7 +252,7 @@ class DropdownField extends StatelessWidget {
     BuildContext context,
     List<dynamic> values,
   ) {
-    List<DropdownMenuItem> items = new List();
+    List<DropdownMenuItem> items = [];
     for (dynamic value in values) {
       items.add(
         DropdownMenuItem(
