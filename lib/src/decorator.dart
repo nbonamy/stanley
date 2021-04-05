@@ -114,50 +114,42 @@ class Decorator extends StatelessWidget {
 
       // wrap in container
       result = Container(
-          width: width,
-          height: height,
-          padding: padding,
-          constraints: BoxConstraints(
-            minWidth: minWidth,
-            maxWidth: maxWidth,
-            minHeight: minHeight,
-            maxHeight: maxHeight,
-          ),
-          decoration: new BoxDecoration(
-              color: backgroundColor,
-              borderRadius: borderRadius == 0.0
-                  ? null
-                  : BorderRadius.all(
-                      Radius.circular(
-                        borderRadius,
-                      ),
+        width: width,
+        height: height,
+        padding: padding,
+        constraints: BoxConstraints(
+          minWidth: minWidth,
+          maxWidth: maxWidth,
+          minHeight: minHeight,
+          maxHeight: maxHeight,
+        ),
+        decoration: new BoxDecoration(
+            color: backgroundColor,
+            borderRadius: borderRadius == 0.0
+                ? null
+                : BorderRadius.all(
+                    Radius.circular(
+                      borderRadius,
                     ),
-              border: Border(
-                left: BorderSide(
-                  color: _borderLeft == 0.0 ? Colors.transparent : borderColor,
-                  width: _borderLeft,
-                ),
-                top: BorderSide(
-                  color: _borderTop == 0.0 ? Colors.transparent : borderColor,
-                  width: _borderTop,
-                ),
-                right: BorderSide(
-                  color: _borderRight == 0.0 ? Colors.transparent : borderColor,
-                  width: _borderRight,
-                ),
-                bottom: BorderSide(
-                  color:
-                      _borderBottom == 0.0 ? Colors.transparent : borderColor,
-                  width: _borderBottom,
-                ),
-              )),
-          child: result);
-    }
-
-    // tap
-    if (onTap != null) {
-      result = GestureDetector(
-        onTap: onTap,
+                  ),
+            border: Border(
+              left: BorderSide(
+                color: _borderLeft == 0.0 ? Colors.transparent : borderColor,
+                width: _borderLeft,
+              ),
+              top: BorderSide(
+                color: _borderTop == 0.0 ? Colors.transparent : borderColor,
+                width: _borderTop,
+              ),
+              right: BorderSide(
+                color: _borderRight == 0.0 ? Colors.transparent : borderColor,
+                width: _borderRight,
+              ),
+              bottom: BorderSide(
+                color: _borderBottom == 0.0 ? Colors.transparent : borderColor,
+                width: _borderBottom,
+              ),
+            )),
         child: result,
       );
     }
@@ -171,6 +163,14 @@ class Decorator extends StatelessWidget {
     if (alignment != null || centered == true) {
       result = Align(
         alignment: alignment ?? (centered == true ? Alignment.center : null),
+        child: result,
+      );
+    }
+
+    // tap
+    if (onTap != null) {
+      result = GestureDetector(
+        onTap: onTap,
         child: result,
       );
     }
