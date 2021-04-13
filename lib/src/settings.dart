@@ -3,25 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:stanley/stanley.dart';
 
 class SettingsStyles {
-  static TextStyle sectionTitleStyle = TextStyle(
-    fontSize: 13.0,
-    color: Color(0xff6d6d71),
-  );
-  static Color sectionBgColor = Color(
-    0xfff2f2f6,
-  );
-  static Color separatorColor = Color(
-    0xffc7c7c9,
-  );
+  static TextStyle sectionTitleStyle =
+      TextStyle(fontSize: 13.0, color: Color(0xff6d6d71));
+  static Color sectionBgColor = Color(0xfff2f2f6);
+  static Color sectionSeparatorColor = Color(0xffc7c7c9);
+  static Color itemSeparatorColor = Color(0xffc7c7c9);
   static Color itemBgColor = Colors.white;
-  static TextStyle itemTitleStyle = TextStyle(
-    fontSize: 17.0,
-    color: Colors.black,
-  );
-  static TextStyle itemValueStyle = TextStyle(
-    fontSize: 15.0,
-    color: Color(0xff7a7a7e),
-  );
+  static TextStyle itemTitleStyle =
+      TextStyle(fontSize: 17.0, color: Colors.black);
+  static TextStyle itemValueStyle =
+      TextStyle(fontSize: 15.0, color: Color(0xff7a7a7e));
 }
 
 class SettingItem extends StatelessWidget {
@@ -106,8 +97,12 @@ class SettingTextItem extends StatelessWidget {
             var controller = TextEditingController(text: initialValue);
             return AlertDialog(
               title: Text(title),
-              titleTextStyle: TextStyle(color: Colors.black),
-              contentPadding: const EdgeInsets.all(16.0),
+              titleTextStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              //contentPadding: const EdgeInsets.all(16.0),
               content: Row(
                 children: <Widget>[
                   Expanded(
@@ -121,10 +116,10 @@ class SettingTextItem extends StatelessWidget {
                 ],
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                     child: const Text('Cancel'),
                     onPressed: () => Navigator.pop(context, null)),
-                FlatButton(
+                TextButton(
                     child: const Text('OK'),
                     onPressed: () => Navigator.pop(context, controller.text))
               ],
@@ -174,20 +169,21 @@ class SettingsSection extends StatelessWidget {
                 ),
                 paddingHoriz: 15.0,
                 borderBottom: 1.0,
-                borderColor: SettingsStyles.separatorColor,
+                borderColor: SettingsStyles.sectionSeparatorColor,
               )
             : Container(),
         Decorator(
-          borderColor: SettingsStyles.separatorColor,
+          borderColor: SettingsStyles.itemSeparatorColor,
           borderBottom: 1.0,
           child: ListView.separated(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: items.length,
             separatorBuilder: (BuildContext context, int index) => Divider(
+              thickness: 1.0,
               height: 1.0,
               indent: 15,
-              color: SettingsStyles.separatorColor,
+              color: SettingsStyles.itemSeparatorColor,
             ),
             itemBuilder: (BuildContext context, int index) => items[index],
           ),
@@ -199,18 +195,15 @@ class SettingsSection extends StatelessWidget {
 
 class SettingsList extends StatelessWidget {
   final List<SettingsSection> sections;
-  final Color bgColor;
 
   const SettingsList({
     Key key,
     @required this.sections,
-    this.bgColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: this.bgColor,
       child: ListView(
         //shrinkWrap: true,
         children: sections,
