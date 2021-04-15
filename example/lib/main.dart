@@ -3,20 +3,29 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stanley/stanley.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale('en', 'US')],
+      fallbackLocale: Locale('en', 'US'),
+      path: 'i18n',
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return EasyLocalization(
-      supportedLocales: [Locale('en', 'US')],
-      fallbackLocale: Locale('en', 'US'),
-      path: 'i18n',
-      child: MaterialApp(
-        title: 'Stanley Demo',
-        home: MyHomePage(),
-      ),
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: 'Stanley Demo',
+      home: MyHomePage(),
     );
   }
 }
@@ -27,12 +36,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends BottomBarState<MyHomePage> {
-
   List<Widget> _children;
 
   @override
   void initState() {
-
     // basic
     super.initState();
 
@@ -41,8 +48,12 @@ class _MyHomePageState extends BottomBarState<MyHomePage> {
 
     // init children
     _children = [
-      DemoTab(visibilityFlag: visibilityFlags[0],),
-      ShareTab(visibilityFlag: visibilityFlags[1],),
+      DemoTab(
+        visibilityFlag: visibilityFlags[0],
+      ),
+      ShareTab(
+        visibilityFlag: visibilityFlags[1],
+      ),
     ];
   }
 
@@ -51,7 +62,6 @@ class _MyHomePageState extends BottomBarState<MyHomePage> {
     return UIHelper.scaffold(
       title: 'Stanley Demo',
       paddingAll: 64,
-      paddingVert: 256,
       actions: appBarActions,
       widget: _children[currentPage],
       bottomBar: BottomNavigationBar(
@@ -74,18 +84,17 @@ class _MyHomePageState extends BottomBarState<MyHomePage> {
 }
 
 class DemoTab extends BaseTabPage {
-
-  DemoTab({
-    Key key,
-    visibilityFlag
-  }) : super(key: key, visibilityFlag: visibilityFlag,);
+  DemoTab({Key key, visibilityFlag})
+      : super(
+          key: key,
+          visibilityFlag: visibilityFlag,
+        );
 
   @override
   DemoState createState() => new DemoState();
 }
 
 class DemoState extends BaseTabState<DemoTab> {
-
   @override
   Widget buildWidget(BuildContext context) {
     return Column(
@@ -199,33 +208,32 @@ class DemoState extends BaseTabState<DemoTab> {
         ),
       ],
     );
-
   }
 
   @override
   List<Widget> getAppBarActions(BuildContext context) {
     return [
-      UIHelper.appBarIcon(icon: Icons.menu, onTap: () {
-        NativeDialog.info(context, 'You tapped menu');
-      }),
+      UIHelper.appBarIcon(
+          icon: Icons.menu,
+          onTap: () {
+            NativeDialog.info(context, 'You tapped menu');
+          }),
     ];
   }
-
 }
 
 class ShareTab extends BaseTabPage {
-
-  ShareTab({
-    Key key,
-    visibilityFlag
-  }) : super(key: key, visibilityFlag: visibilityFlag,);
+  ShareTab({Key key, visibilityFlag})
+      : super(
+          key: key,
+          visibilityFlag: visibilityFlag,
+        );
 
   @override
   ShareState createState() => ShareState();
 }
 
 class ShareState extends BaseTabState<ShareTab> {
-
   @override
   Widget buildWidget(BuildContext context) {
     return Decorator(
@@ -237,12 +245,16 @@ class ShareState extends BaseTabState<ShareTab> {
   @override
   List<Widget> getAppBarActions(BuildContext context) {
     return [
-      UIHelper.appBarIcon(icon: Icons.share, onTap: () {
-        NativeDialog.info(context, 'You tapped share');
-      }),
-      UIHelper.appBarIcon(icon: Icons.close, onTap: () {
-        NativeDialog.info(context, 'You tapped close');
-      }),
+      UIHelper.appBarIcon(
+          icon: Icons.share,
+          onTap: () {
+            NativeDialog.info(context, 'You tapped share');
+          }),
+      UIHelper.appBarIcon(
+          icon: Icons.close,
+          onTap: () {
+            NativeDialog.info(context, 'You tapped close');
+          }),
     ];
   }
 }

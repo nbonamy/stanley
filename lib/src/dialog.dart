@@ -507,10 +507,11 @@ class NativeDialog {
         onPressed: action.getOnTap(context),
       );
     } else {
-      return FlatButton(
+      return TextButton(
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+        ),
         child: label,
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
         onPressed: action.getOnTap(context),
       );
     }
