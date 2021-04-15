@@ -1,3 +1,7 @@
+## [0.7.0] - 2021-04-15
+
+* Flutter and dependencies upgrade
+
 ## [0.6.2] - 2020-05-10
 
 * Fix Decorator when using Flex and GestureDetector simultaneously
