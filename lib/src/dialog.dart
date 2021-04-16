@@ -2,10 +2,9 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stanley/stanley.dart';
-import 'decorator.dart';
-import 'i18n.dart';
-import 'ui_helper.dart';
+import 'package:stanley/src/decorator.dart';
+import 'package:stanley/src/i18n.dart';
+import 'package:stanley/src/ui_helper.dart';
 
 class AlertDialogAction {
   final String label;

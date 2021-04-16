@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ui_helper.dart';
+import 'package:stanley/src/ui_helper.dart';
 
 class Decorator extends StatelessWidget {
   final Widget child;

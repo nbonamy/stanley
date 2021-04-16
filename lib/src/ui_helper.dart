@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'decorator.dart';
+import 'package:stanley/src/decorator.dart';
 
 class UIHelper {
   static Text text(
