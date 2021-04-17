@@ -9,7 +9,7 @@ class Utils {
     return !isRelease;
   }
 
-  static String formatDuration(DateTime start, DateTime end) {
+  static String formatDuration(DateTime? start, DateTime? end) {
     if (start == null) return '';
     if (end == null) end = DateTime.now();
     Duration duration = Duration(

@@ -4,21 +4,16 @@ import 'package:stanley/src/decorator.dart';
 class UIHelper {
   static Text text(
     String text, {
-    String family,
-    FontWeight weight,
+    String? family,
+    FontWeight? weight,
     bool bold = false,
     bool italic = false,
-    double size,
-    Color color,
-    int maxLines,
-    TextOverflow overflow,
-    TextAlign align,
+    double? size,
+    Color? color,
+    int? maxLines,
+    TextOverflow? overflow,
+    TextAlign? align,
   }) {
-    // check
-    if (text == null) {
-      return null;
-    }
-
     // weight
     if (weight == null && bold == true) {
       weight = FontWeight.bold;
@@ -41,13 +36,13 @@ class UIHelper {
   }
 
   static Scaffold scaffold({
-    @required String title,
-    Color appBarColor,
-    @required Widget widget,
-    Widget leading,
-    List<Widget> actions,
+    required String title,
+    Color? appBarColor,
+    required Widget widget,
+    Widget? leading,
+    List<Widget>? actions,
     Color backgroundColor = Colors.white,
-    Color underlineColor,
+    Color? underlineColor,
     double paddingAll = 8,
     double paddingHoriz = -1,
     double paddingVert = -1,
@@ -56,9 +51,9 @@ class UIHelper {
     double paddingRight = -1,
     double paddingBottom = -1,
     bool scroll = false,
-    ScrollPhysics scrollPhysics,
-    FloatingActionButton floatingActionButton,
-    Widget bottomBar,
+    ScrollPhysics? scrollPhysics,
+    FloatingActionButton? floatingActionButton,
+    Widget? bottomBar,
   }) {
     // add padding
     Widget result = Padding(
@@ -98,12 +93,12 @@ class UIHelper {
     );
   }
 
-  static Widget appBar({
-    @required String title,
-    Color backgroundColor,
-    Widget leading,
-    List<Widget> actions,
-    Color lineColor,
+  static PreferredSizeWidget appBar({
+    required String title,
+    Color? backgroundColor,
+    Widget? leading,
+    List<Widget>? actions,
+    Color? lineColor,
   }) {
     return AppBar(
       title: UIHelper.text(title),
@@ -125,8 +120,8 @@ class UIHelper {
   }
 
   static Widget appBarAction({
-    @required Widget child,
-    @required Function onTap,
+    required Widget child,
+    required GestureTapCallback? onTap,
     double paddingHoriz = 8,
   }) {
     return Decorator(
@@ -138,8 +133,8 @@ class UIHelper {
   }
 
   static Widget appBarText({
-    @required String label,
-    @required Function onTap,
+    required String label,
+    required GestureTapCallback? onTap,
   }) {
     return appBarAction(
       child: UIHelper.text(
@@ -151,8 +146,8 @@ class UIHelper {
   }
 
   static Widget appBarIcon({
-    @required IconData icon,
-    @required Function onTap,
+    required IconData icon,
+    required GestureTapCallback? onTap,
   }) {
     return IconButton(
       icon: Icon(icon),
@@ -161,8 +156,8 @@ class UIHelper {
   }
 
   static Widget appBarImage({
-    @required Image image,
-    @required Function onTap,
+    required Image image,
+    required GestureTapCallback? onTap,
   }) {
     return appBarAction(
       child: Decorator(height: 28, child: image),

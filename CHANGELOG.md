@@ -1,3 +1,7 @@
+## [0.8.0] - 2021-04-17
+
+* Null-safety version
+
 ## [0.7.0] - 2021-04-15
 
 * Flutter and dependencies upgrade

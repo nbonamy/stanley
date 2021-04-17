@@ -3,10 +3,10 @@ import 'package:stanley/src/ui_helper.dart';
 
 class Decorator extends StatelessWidget {
   final Widget child;
-  final int flex;
-  final FlexFit fit;
-  final double width;
-  final double height;
+  final int? flex;
+  final FlexFit? fit;
+  final double? width;
+  final double? height;
   final double marginAll;
   final double marginHoriz;
   final double marginVert;
@@ -33,13 +33,13 @@ class Decorator extends StatelessWidget {
   final double borderBottom;
   final Color backgroundColor;
   final double borderRadius;
-  final Alignment alignment;
+  final AlignmentGeometry? alignment;
   final bool centered;
-  final Function onTap;
+  final GestureTapCallback? onTap;
 
   const Decorator({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.flex,
     this.fit,
     this.width,
@@ -156,13 +156,13 @@ class Decorator extends StatelessWidget {
 
     // flex
     if (flex != null || fit != null) {
-      result = Flexible(flex: flex, fit: fit, child: result);
+      result = Flexible(flex: flex!, fit: fit!, child: result);
     }
 
     // alignment
     if (alignment != null || centered == true) {
       result = Align(
-        alignment: alignment ?? (centered == true ? Alignment.center : null),
+        alignment: alignment ?? Alignment.center,
         child: result,
       );
     }

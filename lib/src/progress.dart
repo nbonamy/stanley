@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Progress extends StatelessWidget {
-  final Color color;
+  final Color? color;
   const Progress({
-    Key key,
+    Key? key,
     this.color,
   }) : super(key: key);
 
@@ -16,7 +16,7 @@ class Progress extends StatelessWidget {
       return CupertinoActivityIndicator();
     } else {
       return CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(color),
+        valueColor: AlwaysStoppedAnimation<Color>(color!),
       );
     }
   }

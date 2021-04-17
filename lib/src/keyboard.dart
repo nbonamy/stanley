@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 /// from any class.
 abstract class KeyboardHiderMixin {
   void hideKeyboard({
-    BuildContext context,
+    required BuildContext context,
     bool hideTextInput = true,
     bool requestFocusNode = true,
   }) {
     if (hideTextInput) {
       SystemChannels.textInput.invokeMethod('TextInput.hide');
     }
-    if (context != null && requestFocusNode) {
+    if (requestFocusNode) {
       FocusScope.of(context).unfocus();
     }
   }
@@ -34,12 +34,11 @@ class KeyboardHider extends StatelessWidget with KeyboardHiderMixin {
   /// One of hideTextInput or requestFocusNode must be true, otherwise using the
   /// widget is pointless as it will not even try to hide the keyboard.
   const KeyboardHider({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.hideTextInput = true,
     this.requestFocusNode = true,
-  })  : assert(child != null),
-        assert(hideTextInput || requestFocusNode),
+  })  : assert(hideTextInput || requestFocusNode),
         super(key: key);
 
   @override

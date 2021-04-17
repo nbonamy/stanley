@@ -13,8 +13,8 @@ class PaddedFormField extends StatelessWidget {
   final Widget child;
 
   const PaddedFormField({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -30,16 +30,16 @@ class ToggleFormField extends StatelessWidget {
   final String label;
   final IconData icon;
   final bool initialValue;
-  final Function onTap;
-  final String helpText;
-  final String disabledHint;
+  final GestureTapCallback? onTap;
+  final String? helpText;
+  final String? disabledHint;
 
   const ToggleFormField({
-    Key key,
-    @required this.label,
-    @required this.icon,
-    @required this.initialValue,
-    @required this.onTap,
+    Key? key,
+    required this.label,
+    required this.icon,
+    required this.initialValue,
+    required this.onTap,
     this.helpText,
     this.disabledHint,
   }) : super(key: key);
@@ -102,15 +102,15 @@ class ToggleFormField extends StatelessWidget {
 class DecoratedTextFormField extends StatefulWidget {
   final String label;
   final String value;
-  final IconData icon;
+  final IconData? icon;
   final Function onChange;
 
   const DecoratedTextFormField({
-    Key key,
-    @required this.label,
-    @required this.value,
+    Key? key,
+    required this.label,
+    required this.value,
     this.icon,
-    @required this.onChange,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -118,12 +118,12 @@ class DecoratedTextFormField extends StatefulWidget {
 }
 
 class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
-  TextEditingController _controller;
+  TextEditingController? _controller;
   @override
   void initState() {
     super.initState();
     _controller = new TextEditingController();
-    _controller.text = widget.value;
+    _controller?.text = widget.value;
   }
 
   @override
@@ -168,18 +168,18 @@ class _DecoratedTextFormFieldState extends State<DecoratedTextFormField> {
 
 class DropdownField extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final IconData? icon;
   final dynamic initialValue;
   final List<DropdownMenuItem> values;
-  final String helpText;
-  final String disabledHint;
-  final Function onChange;
+  final String? helpText;
+  final String? disabledHint;
+  final ValueChanged? onChange;
 
   const DropdownField({
-    Key key,
-    @required this.label,
-    @required this.initialValue,
-    @required this.values,
+    Key? key,
+    required this.label,
+    required this.initialValue,
+    required this.values,
     this.icon,
     this.helpText,
     this.disabledHint,
@@ -194,11 +194,13 @@ class DropdownField extends StatelessWidget {
           child: DropdownButtonFormField(
             items: values,
             value: initialValue,
-            disabledHint: UIHelper.text(
-              disabledHint,
-              color: PaddedFormField.textColor.withAlpha(90),
-              size: PaddedFormField.valueFontSize,
-            ),
+            disabledHint: disabledHint == null
+                ? null
+                : UIHelper.text(
+                    disabledHint!,
+                    color: PaddedFormField.textColor.withAlpha(90),
+                    size: PaddedFormField.valueFontSize,
+                  ),
             iconEnabledColor: PaddedFormField.textColor,
             selectedItemBuilder: (BuildContext context) {
               return values.map<Widget>((value) {

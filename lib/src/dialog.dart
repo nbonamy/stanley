@@ -8,13 +8,13 @@ import 'package:stanley/src/ui_helper.dart';
 
 class AlertDialogAction {
   final String label;
-  final Color color;
+  final Color? color;
   final bool isDefault;
   final bool autoDismiss;
-  final Function onTap;
+  final GestureTapCallback? onTap;
 
   AlertDialogAction({
-    @required this.label,
+    required this.label,
     this.color,
     this.isDefault = false,
     this.autoDismiss = true,
@@ -22,10 +22,10 @@ class AlertDialogAction {
   });
 
   static AlertDialogAction confirm({
-    String label,
+    String? label,
     bool isDefault = false,
     bool autoDismiss = true,
-    Function onTap,
+    GestureTapCallback? onTap,
   }) {
     // default value
     if (label == null) {
@@ -43,10 +43,10 @@ class AlertDialogAction {
   }
 
   static AlertDialogAction cancel({
-    String label,
+    String? label,
     bool isDefault = false,
     bool autoDismiss = true,
-    Function onTap,
+    GestureTapCallback? onTap,
   }) {
     // default value
     if (label == null) {
@@ -63,13 +63,13 @@ class AlertDialogAction {
     );
   }
 
-  Function getOnTap(BuildContext context) {
+  VoidCallback getOnTap(BuildContext context) {
     return () {
       if (this.autoDismiss) {
         Navigator.of(context).pop();
       }
       if (this.onTap != null) {
-        this.onTap();
+        this.onTap!();
       }
     };
   }
@@ -130,8 +130,8 @@ class NativeDialog {
 
   static dynamic info(
     BuildContext context,
-    String message, {
-    Function onTap,
+    String? message, {
+    GestureTapCallback? onTap,
   }) {
     return NativeDialog.alert(
       context: context,
@@ -148,7 +148,7 @@ class NativeDialog {
   static dynamic confirm(
     BuildContext context,
     String message,
-    Function onTap, {
+    GestureTapCallback? onTap, {
     bool destructive = false,
   }) {
     // actions
@@ -184,11 +184,11 @@ class NativeDialog {
   }
 
   static dynamic alert({
-    @required BuildContext context,
+    required BuildContext context,
     dynamic title,
     dynamic content,
-    @required List<AlertDialogAction> actions,
-    AlertDialogAction cancelAction,
+    List<AlertDialogAction>? actions,
+    AlertDialogAction? cancelAction,
     bool modal = true,
   }) {
     // need at least some info
@@ -212,7 +212,6 @@ class NativeDialog {
     if (title is String) {
       title = UIHelper.text(
         title,
-        family: null,
         size: alertTitleFontSize,
         weight: content == null ? normalFontWeight : boldFontWeight,
       );
@@ -220,7 +219,6 @@ class NativeDialog {
     if (content is String) {
       content = UIHelper.text(
         content,
-        family: null,
         size: alertContentFontSize,
         weight: normalFontWeight,
       );
@@ -270,14 +268,14 @@ class NativeDialog {
   }
 
   static void bottomSheet({
-    @required BuildContext context,
-    String title,
-    String content,
-    @required List<AlertDialogAction> actions,
-    AlertDialogAction cancelAction,
+    required BuildContext context,
+    String? title,
+    String? content,
+    List<AlertDialogAction>? actions,
+    AlertDialogAction? cancelAction,
     bool forceMaterial = false,
-    Color titleColor,
-    double height,
+    Color? titleColor,
+    double? height,
   }) {
     // depends on platform
     if (forceMaterial == false && NativeDialog.isIOS) {
@@ -285,12 +283,12 @@ class NativeDialog {
         context: context,
         builder: (context) => CupertinoActionSheet(
           title: UIHelper.text(
-            title,
+            title ?? '',
             size: alertContentFontSize,
             weight: boldFontWeight,
           ),
           message: UIHelper.text(
-            content,
+            content ?? '',
             size: alertContentFontSize,
           ),
           actions: _buildButtons(
@@ -330,7 +328,7 @@ class NativeDialog {
         child: Decorator(
           paddingBottom: 8,
           child: UIHelper.text(
-            title?.toUpperCase(),
+            title != null ? title.toUpperCase() : '',
             size: alertTitleFontSize,
             color: titleColor,
             weight: boldFontWeight,
@@ -384,34 +382,31 @@ class NativeDialog {
 
   static List<Widget> _buildButtons(
     BuildContext context,
-    List<AlertDialogAction> actions,
-    AlertDialogAction cancelAction, {
+    List<AlertDialogAction>? actions,
+    AlertDialogAction? cancelAction, {
     bool forceMaterial = false,
     bool forActionSheet = false,
-    double paddingVert,
-    double paddingHoriz,
-    bool uppercase,
-    double size,
-    bool bold,
-    Color color,
-    TextAlign align,
-    Widget leading,
+    double? paddingVert,
+    double? paddingHoriz,
+    bool? uppercase,
+    double? size,
+    bool? bold,
+    Color? color,
+    TextAlign? align,
+    Widget? leading,
   }) {
     // render in one pass
     List<AlertDialogAction> actionsToRender = [];
     if (actions != null) {
       actionsToRender.addAll(actions);
     }
-    actionsToRender.add(cancelAction);
+    if (cancelAction != null) {
+      actionsToRender.add(cancelAction);
+    }
 
     // now render them all
     List<Widget> buttons = [];
     for (AlertDialogAction action in actionsToRender) {
-      // we may allow null
-      if (action == null) {
-        continue;
-      }
-
       // depends on platform
       if (forceMaterial == false && NativeDialog.isIOS) {
         buttons.add(_iosButton(
@@ -442,21 +437,20 @@ class NativeDialog {
   }
 
   static Widget _androidButton({
-    BuildContext context,
-    AlertDialogAction action,
-    double paddingVert,
-    double paddingHoriz,
-    bool uppercase,
-    double size,
-    bool bold,
-    Color color,
-    TextAlign align,
-    Widget leading,
+    required BuildContext context,
+    required AlertDialogAction action,
+    double? paddingVert,
+    double? paddingHoriz,
+    bool? uppercase,
+    double? size,
+    bool? bold,
+    Color? color,
+    TextAlign? align,
+    Widget? leading,
   }) {
     // widget
     Widget label = UIHelper.text(
       (uppercase == false) ? action.label : action.label.toUpperCase(),
-      family: null,
       size: size ?? alertActionsFontSize,
       color: action.color ?? color ?? NativeDialog.alertNeutralColor,
       align: align ?? TextAlign.right,
@@ -483,15 +477,14 @@ class NativeDialog {
   }
 
   static Widget _iosButton({
-    BuildContext context,
-    AlertDialogAction action,
-    bool forActionSheet,
-    double size,
+    required BuildContext context,
+    required AlertDialogAction action,
+    required bool forActionSheet,
+    double? size,
   }) {
     // widget
     Widget label = UIHelper.text(
       action.label,
-      family: null,
       weight: action.isDefault ? boldFontWeight : normalFontWeight,
       color: action.color ?? CupertinoColors.systemBlue,
       size: size ??

@@ -11,19 +11,19 @@ class I18nUtils {
     }
   }
 
-  static String countryCode(BuildContext context) {
-    Locale locale = EasyLocalization.of(context).locale;
-    return locale.countryCode;
+  static String? countryCode(BuildContext context) {
+    Locale? locale = EasyLocalization.of(context)?.locale;
+    return locale?.countryCode;
   }
 
-  static String languageCode(BuildContext context) {
-    Locale locale = EasyLocalization.of(context).locale;
-    return locale.languageCode;
+  static String? languageCode(BuildContext context) {
+    Locale? locale = EasyLocalization.of(context)?.locale;
+    return locale?.languageCode;
   }
 
   static Future initDateFormat(BuildContext context) {
     return initializeDateFormatting(
-        I18nUtils.languageCode(context).toLowerCase());
+        I18nUtils.languageCode(context)?.toLowerCase());
   }
 
   static String getEnumLabel(dynamic value) {

@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends BottomBarState<MyHomePage> {
-  List<Widget> _children;
+  List<Widget> _children = [];
 
   @override
   void initState() {
@@ -84,7 +84,7 @@ class _MyHomePageState extends BottomBarState<MyHomePage> {
 }
 
 class DemoTab extends BaseTabPage {
-  DemoTab({Key key, visibilityFlag})
+  DemoTab({Key? key, visibilityFlag})
       : super(
           key: key,
           visibilityFlag: visibilityFlag,
@@ -223,7 +223,7 @@ class DemoState extends BaseTabState<DemoTab> {
 }
 
 class ShareTab extends BaseTabPage {
-  ShareTab({Key key, visibilityFlag})
+  ShareTab({Key? key, visibilityFlag})
       : super(
           key: key,
           visibilityFlag: visibilityFlag,
@@ -261,11 +261,11 @@ class ShareState extends BaseTabState<ShareTab> {
 
 class Button extends StatelessWidget {
   final String label;
-  final Function onTap;
+  final GestureTapCallback onTap;
   const Button({
-    Key key,
-    this.label,
-    this.onTap,
+    Key? key,
+    required this.label,
+    required this.onTap,
   }) : super(key: key);
 
   @override
