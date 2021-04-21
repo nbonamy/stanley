@@ -93,6 +93,7 @@ class SettingTextItem extends StatelessWidget {
       onTap: () async {
         var changedValue = await showDialog(
           context: context,
+          useRootNavigator: false,
           builder: (_) {
             var controller = TextEditingController(text: initialValue);
             return AlertDialog(
@@ -177,6 +178,7 @@ class SettingsSection extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: items.length,
+            padding: EdgeInsets.zero,
             separatorBuilder: (BuildContext context, int index) => Divider(
               thickness: 1.0,
               height: 1.0,
@@ -203,6 +205,7 @@ class SettingsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
+        padding: EdgeInsets.zero,
         //shrinkWrap: true,
         children: sections,
       ),
