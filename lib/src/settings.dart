@@ -10,9 +10,9 @@ class SettingsStyles {
   static Color itemSeparatorColor = Color(0xffc7c7c9);
   static Color itemBgColor = Colors.white;
   static TextStyle itemTitleStyle =
-      TextStyle(fontSize: 17.0, color: Colors.black);
+      TextStyle(fontSize: 15.0, color: Colors.black);
   static TextStyle itemValueStyle =
-      TextStyle(fontSize: 15.0, color: Color(0xff7a7a7e));
+      TextStyle(fontSize: 13.0, color: Color(0xff7a7a7e));
 }
 
 class SettingItem extends StatelessWidget {
