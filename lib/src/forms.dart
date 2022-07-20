@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:stanley/src/decorator.dart';
 import 'package:stanley/src/dialog.dart';
 import 'package:stanley/src/i18n.dart';
