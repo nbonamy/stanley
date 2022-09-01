@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stanley/src/ui_helper.dart';
+
+import 'empty.dart';
+import 'ui_helper.dart';
 
 class Decorator extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final int? flex;
   final FlexFit? fit;
   final double? width;
@@ -39,7 +41,7 @@ class Decorator extends StatelessWidget {
 
   const Decorator({
     Key? key,
-    required this.child,
+    this.child,
     this.flex,
     this.fit,
     this.width,
@@ -77,7 +79,7 @@ class Decorator extends StatelessWidget {
 
   Widget build(BuildContext context) {
     // start
-    Widget result = child;
+    Widget? result = child;
 
     // padding
     EdgeInsets padding = UIHelper.calcEdgeInsets(
@@ -156,7 +158,7 @@ class Decorator extends StatelessWidget {
 
     // flex
     if (flex != null || fit != null) {
-      result = Flexible(flex: flex!, fit: fit!, child: result);
+      result = Flexible(flex: flex!, fit: fit!, child: result ?? Empty());
     }
 
     // alignment
@@ -196,6 +198,6 @@ class Decorator extends StatelessWidget {
     }
 
     // done
-    return result;
+    return result ?? Empty();
   }
 }

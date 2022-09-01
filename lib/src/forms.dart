@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stanley/src/decorator.dart';
-import 'package:stanley/src/dialog.dart';
-import 'package:stanley/src/i18n.dart';
-import 'package:stanley/src/ui_helper.dart';
+
+import 'decorator.dart';
+import 'dialog.dart';
+import 'i18n.dart';
+import 'ui_helper.dart';
 
 class PaddedFormField extends StatelessWidget {
   static double valueFontSize = 20;

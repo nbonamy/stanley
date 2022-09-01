@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stanley/stanley.dart';
+
+import 'decorator.dart';
 
 class SettingsStyles {
   static TextStyle sectionTitleStyle =
