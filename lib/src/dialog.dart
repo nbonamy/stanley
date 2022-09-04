@@ -191,6 +191,7 @@ class NativeDialog {
     dynamic content,
     List<AlertDialogAction>? actions,
     AlertDialogAction? cancelAction,
+    bool useRootNavigator = true,
     bool modal = true,
   }) {
     // need at least some info
@@ -259,12 +260,14 @@ class NativeDialog {
       return showCupertinoDialog(
         context: context,
         builder: (context) => alert,
+        useRootNavigator: useRootNavigator,
       );
     } else {
       return showDialog(
         context: context,
         barrierDismissible: !modal,
         builder: (context) => alert,
+        useRootNavigator: useRootNavigator,
       );
     }
   }

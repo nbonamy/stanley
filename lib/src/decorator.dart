@@ -38,6 +38,7 @@ class Decorator extends StatelessWidget {
   final AlignmentGeometry? alignment;
   final bool centered;
   final GestureTapCallback? onTap;
+  final GestureLongPressCallback? onLongPress;
 
   const Decorator({
     Key? key,
@@ -75,6 +76,7 @@ class Decorator extends StatelessWidget {
     this.centered = false,
     this.alignment,
     this.onTap,
+    this.onLongPress,
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -170,9 +172,10 @@ class Decorator extends StatelessWidget {
     }
 
     // tap
-    if (onTap != null) {
+    if (onTap != null || onLongPress != null) {
       result = GestureDetector(
         onTap: onTap,
+        onLongPress: onLongPress,
         child: result,
       );
     }
