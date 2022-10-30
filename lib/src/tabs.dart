@@ -73,20 +73,23 @@ abstract class BaseTabState<T extends BaseTabPage> extends State<T> {
   Widget build(BuildContext context) {
     // do it
     return ValueListenableBuilder(
-        valueListenable: widget.visibilityFlag,
-        builder: (BuildContext context, bool visible, Widget? child) {
-          // update action bar
-          if (visible) {
+      valueListenable: widget.visibilityFlag,
+      builder: (BuildContext context, bool visible, Widget? child) {
+        // update action bar
+        if (visible) {
+          List<Widget>? appBarActions = getAppBarActions(context);
+          if (appBarActions != null) {
             scheduleMicrotask(() {
-              UpdateActionBarActionsNotification(
-                      appBarActions: getAppBarActions(context)!)
+              UpdateActionBarActionsNotification(appBarActions: appBarActions!)
                   .dispatch(context);
             });
           }
+        }
 
-          // done
-          return buildWidget(context);
-        });
+        // done
+        return buildWidget(context);
+      },
+    );
   }
 
   Widget buildWidget(BuildContext context);

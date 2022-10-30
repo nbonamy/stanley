@@ -13,7 +13,9 @@ abstract class KeyboardHiderMixin {
       SystemChannels.textInput.invokeMethod('TextInput.hide');
     }
     if (requestFocusNode) {
-      FocusScope.of(context).unfocus();
+      try {
+        FocusScope.of(context).unfocus();
+      } catch (_) {}
     }
   }
 }
