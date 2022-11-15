@@ -80,7 +80,7 @@ abstract class BaseTabState<T extends BaseTabPage> extends State<T> {
           List<Widget>? appBarActions = getAppBarActions(context);
           if (appBarActions != null) {
             scheduleMicrotask(() {
-              UpdateActionBarActionsNotification(appBarActions: appBarActions!)
+              UpdateActionBarActionsNotification(appBarActions: appBarActions)
                   .dispatch(context);
             });
           }
