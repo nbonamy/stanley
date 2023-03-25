@@ -3,9 +3,19 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class I18nUtils {
-  static String t(String value) {
+  static String t(
+    String value, {
+    List<String>? args,
+    Map<String, String>? namedArgs,
+    String? gender,
+  }) {
     try {
-      return tr(value);
+      return tr(
+        value,
+        args: args,
+        namedArgs: namedArgs,
+        gender: gender,
+      );
     } on NoSuchMethodError {
       return value;
     }
