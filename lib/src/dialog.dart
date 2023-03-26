@@ -91,6 +91,8 @@ class NativeDialog {
   static Color alertNeutralColor =
       NativeDialog.isIOS ? CupertinoColors.activeBlue : Color(0xff1976d2);
 
+  static double iosDialogVerticalButtonPaddingHoriz = 16;
+
   static int materialVerticalDialogThreshold = 2;
   static double materialDialogVerticalButtonPaddingHoriz = 8;
   static double materialDialogVerticalButtonPaddingVert = 16;
@@ -134,6 +136,7 @@ class NativeDialog {
     BuildContext context,
     String? message, {
     GestureTapCallback? onTap,
+    bool useRootNavigator = true,
   }) {
     return NativeDialog.alert(
       context: context,
@@ -144,6 +147,7 @@ class NativeDialog {
           onTap: onTap,
         ),
       ],
+      useRootNavigator: useRootNavigator,
     );
   }
 
@@ -152,6 +156,7 @@ class NativeDialog {
     String message,
     GestureTapCallback? onTap, {
     bool destructive = false,
+    bool useRootNavigator = true,
   }) {
     // actions
     List<AlertDialogAction> actions = [
@@ -182,6 +187,7 @@ class NativeDialog {
       context: context,
       title: message,
       actions: actions,
+      useRootNavigator: useRootNavigator,
     );
   }
 
@@ -490,6 +496,7 @@ class NativeDialog {
     // widget
     Widget label = UIHelper.text(
       action.label,
+      align: TextAlign.center,
       weight: action.isDefault ? boldFontWeight : normalFontWeight,
       color: action.color ?? CupertinoColors.systemBlue,
       size: size ??
@@ -508,7 +515,11 @@ class NativeDialog {
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
         ),
-        child: label,
+        child: Decorator(
+          alignment: Alignment.center,
+          paddingHoriz: iosDialogVerticalButtonPaddingHoriz,
+          child: label,
+        ),
         onPressed: action.getOnTap(context),
       );
     }
