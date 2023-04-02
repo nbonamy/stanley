@@ -4,20 +4,39 @@ import 'package:easy_localization/easy_localization.dart';
 
 class I18nUtils {
   static String t(
-    String value, {
+    String key, {
     List<String>? args,
     Map<String, String>? namedArgs,
     String? gender,
   }) {
     try {
       return tr(
-        value,
+        key,
         args: args,
         namedArgs: namedArgs,
         gender: gender,
       );
     } on NoSuchMethodError {
-      return value;
+      return key;
+    }
+  }
+
+  static String p(
+    String key,
+    num value, {
+    List<String>? args,
+    Map<String, String>? namedArgs,
+    String? gender,
+  }) {
+    try {
+      return plural(
+        key,
+        value,
+        args: args,
+        namedArgs: namedArgs,
+      );
+    } on NoSuchMethodError {
+      return key;
     }
   }
 
