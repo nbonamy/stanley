@@ -1,3 +1,7 @@
+## [0.8.1] - 2023-05-24
+
+* Dependency bumps
+
 ## [0.8.0] - 2021-04-17
 
 * Null-safety version
@@ -55,3 +59,4 @@
 ## [0.1.0] - 2020-04-15
 
 * Initial migration from projects
+
