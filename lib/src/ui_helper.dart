@@ -42,6 +42,7 @@ class UIHelper {
     required Widget widget,
     Widget? leading,
     List<Widget>? actions,
+    Color? foregroundColor,
     Color backgroundColor = Colors.white,
     Color? underlineColor,
     double paddingAll = 8,
@@ -83,6 +84,7 @@ class UIHelper {
       backgroundColor: backgroundColor,
       appBar: UIHelper.appBar(
         title: title,
+        foregroundColor: foregroundColor,
         backgroundColor: appBarColor,
         leading: leading,
         actions: actions,
@@ -96,6 +98,7 @@ class UIHelper {
 
   static PreferredSizeWidget appBar({
     required String title,
+    Color? foregroundColor,
     Color? backgroundColor,
     Widget? leading,
     List<Widget>? actions,
@@ -103,6 +106,9 @@ class UIHelper {
   }) {
     return AppBar(
       title: UIHelper.text(title),
+      iconTheme: IconThemeData(color: foregroundColor),
+      titleTextStyle: TextStyle(color: foregroundColor, fontSize: 20),
+      toolbarTextStyle: TextStyle(color: foregroundColor),
       centerTitle: true,
       leading: leading,
       actions: actions,
@@ -136,11 +142,13 @@ class UIHelper {
   static Widget appBarText({
     required String label,
     required GestureTapCallback? onTap,
+    Color? color,
   }) {
     return appBarAction(
       child: UIHelper.text(
         label,
         size: 20,
+        color: color,
       ),
       onTap: onTap,
     );
@@ -149,9 +157,10 @@ class UIHelper {
   static Widget appBarIcon({
     required IconData icon,
     required GestureTapCallback? onTap,
+    Color? color,
   }) {
     return IconButton(
-      icon: Icon(icon),
+      icon: Icon(icon, color: color),
       onPressed: onTap,
     );
   }
