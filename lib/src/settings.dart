@@ -112,6 +112,7 @@ class SettingTextItem extends StatelessWidget {
                       autofocus: true,
                       autocorrect: false,
                       decoration: InputDecoration(hintText: hintText),
+                      style: TextStyle(color: Colors.black),
                     ),
                   )
                 ],
